@@ -7,16 +7,16 @@ const { getAllAisle } = require("./services/aisleQueries");
 // THIS FILE IS FOR TESTING DATABASE QUERIES!!!
 
 async function main() {
-  const product = await prisma.product.findMany({
-    where: {
-      name: {
-        contains: 'pot',
-        mode: 'insensitive'
-      }
+  const user = await prisma.user.create({
+    data: {
+      name: "John Doe",
+      email: "john.doe@ymail.com",
+      password: "456xyz",
+      location: "British Columbia, Vancouver",
     },
   });
 
-  console.log(product)
+  console.log(user);
 }
 
 main()

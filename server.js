@@ -13,17 +13,17 @@ app.use(express.urlencoded({ extended: true }));
 // Middleware to parse JSON
 app.use(express.json());
 
-// Posts route
-// app.use('/posts', require('./routes/postRoute'));
-
 // User route
-// app.use('/user', require('./routes/userRoute'))
+app.use('/users', require('./routes/userRoute'))
 
-// Product route
-app.use('/products', require('./routes/productRoute'));
+// Posts route
+app.use('/posts', require('./routes/postRoute'));
 
-// Shelf route
-app.use('/aisles', require('./routes/aisleRoute'));
+// // Product route
+// app.use('/products', require('./routes/productRoute'));
+
+// // Shelf route
+// app.use('/aisles', require('./routes/aisleRoute'));
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

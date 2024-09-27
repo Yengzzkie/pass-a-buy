@@ -1,9 +1,8 @@
-const db = require("../db/queries");
+const db = require("../services/userQueries");
 
-async function getUsernames(req, res) {
+async function getAllUsers(req, res) {
     try {
-      const usernames = await db.getAllUsernames();
-      console.log("Usernames: ", usernames);
+      const usernames = await db.getAllUserQuery();
       res.json(usernames);
     } catch (error) {
       console.error("Error fetching usernames:", error);
@@ -22,7 +21,7 @@ async function deleteUsernames(req, res) {
 }
 
 module.exports = {
-  getUsernames,
+  getAllUsers,
   createUsernamePost,
   deleteUsernames
 };

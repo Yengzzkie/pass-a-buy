@@ -13,9 +13,29 @@ async function getAllUserQuery() {
               }
         });
     } catch (error) {
-        console.error('Failed to get aisles', error.message);
+        console.error('Failed to get users', error.message);
         throw error;
     }
 }
 
-module.exports = { getAllUserQuery }
+// Create new user
+async function createUserQuery(userInfo) {
+    const { name, email, password, profilePicture, bio, location, trustRating, reviewCount } = userInfo;
+    try {
+        return await prisma.user.create({
+            data: {
+                name: name,
+                email: email,
+                password: password,
+                profilePicture: profilePicture,
+                bio: bio,
+                location: location,
+            }
+        })
+    } catch (error) {
+        console.error('Failed to register user', error.message);
+        throw error;
+    }
+}
+
+module.exports = { getAllUserQuery, createUserQuery }

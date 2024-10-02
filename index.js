@@ -7,16 +7,13 @@ const { getAllAisle } = require("./services/aisleQueries");
 // THIS FILE IS FOR TESTING DATABASE QUERIES!!!
 
 async function main() {
-  const user = await prisma.user.create({
-    data: {
-      name: "John Doe",
-      email: "john.doe@ymail.com",
-      password: "456xyz",
-      location: "British Columbia, Vancouver",
+  const post = await prisma.post.findUnique({
+    where: {
+       id: "ca1c7ed4-57a1-4804-bbeb-846bfb0a4603"
     },
   });
 
-  console.log(user);
+  console.log(post);
 }
 
 main()

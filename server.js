@@ -13,6 +13,9 @@ app.use(express.urlencoded({ extended: true }));
 // Middleware to parse JSON
 app.use(express.json());
 
+// Welcome route
+app.get('/', (req, res) => res.send('Welcome to Pass-a-buy!'))
+
 // User route
 app.use('/users', require('./routes/userRoute'))
 

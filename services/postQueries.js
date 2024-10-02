@@ -10,6 +10,20 @@ async function getAllPostsQuery() {
     }
 }
 
+// Get one post
+async function getPostQuery(postId) {
+    try {
+        return await prisma.post.findUnique({
+            where: {
+                id: postId
+            }
+        })
+    } catch (error) {
+        console.error('Failed to get post', error.message);
+        throw error;
+    }
+}
+
 // Create post
 async function createPostQuery(postData) {
     const { fromLocation, toLocation, travelDate, returnDate, capacity, itemType, fee, additionalDetails, userId } = postData;
@@ -36,4 +50,4 @@ async function createPostQuery(postData) {
 
 
 
-module.exports = { getAllPostsQuery, createPostQuery }
+module.exports = { getAllPostsQuery, getPostQuery, createPostQuery }

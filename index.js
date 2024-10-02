@@ -7,13 +7,16 @@ const { getAllAisle } = require("./services/aisleQueries");
 // THIS FILE IS FOR TESTING DATABASE QUERIES!!!
 
 async function main() {
-  const post = await prisma.post.findUnique({
+  const user = await prisma.user.update({
     where: {
-       id: "ca1c7ed4-57a1-4804-bbeb-846bfb0a4603"
+       id: "b21b8830-eb23-4355-9e5c-1f5f35d59e13"
     },
+    data: {
+      contact: "4325829904"
+    }
   });
 
-  console.log(post);
+  console.log(user);
 }
 
 main()

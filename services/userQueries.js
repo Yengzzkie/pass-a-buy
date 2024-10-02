@@ -18,14 +18,30 @@ async function getAllUserQuery() {
     }
 }
 
+// Get specific user
+async function getUserQuery(postId) {
+    try {
+        return await prisma.user.findUnique({
+            where: {
+                id: userId
+            },
+            
+        })
+    } catch (error) {
+        console.error('User not found', error.message);
+        throw error;
+    }
+}
+
 // Create new user
 async function createUserQuery(userInfo) {
-    const { name, email, password, profilePicture, bio, location, trustRating, reviewCount } = userInfo;
+    const { name, email, contact, password, profilePicture, bio, location } = userInfo;
     try {
         return await prisma.user.create({
             data: {
                 name: name,
                 email: email,
+                contact: contact,
                 password: password,
                 profilePicture: profilePicture,
                 bio: bio,
@@ -38,4 +54,4 @@ async function createUserQuery(userInfo) {
     }
 }
 
-module.exports = { getAllUserQuery, createUserQuery }
+module.exports = { getAllUserQuery, getUserQuery, createUserQuery }

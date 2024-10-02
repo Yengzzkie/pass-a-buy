@@ -22,11 +22,6 @@ app.use('/users', require('./routes/userRoute'))
 // Posts route
 app.use('/posts', require('./routes/postRoute'));
 
-// // Product route
-// app.use('/products', require('./routes/productRoute'));
-
-// // Shelf route
-// app.use('/aisles', require('./routes/aisleRoute'));
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

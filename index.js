@@ -7,13 +7,10 @@ const { getAllAisle } = require("./services/aisleQueries");
 // THIS FILE IS FOR TESTING DATABASE QUERIES!!!
 
 async function main() {
-  const user = await prisma.user.update({
+  const user = await prisma.user.findMany({
     where: {
-       id: "b21b8830-eb23-4355-9e5c-1f5f35d59e13"
+        name: {contains: "kyle", mode: "insensitive"},
     },
-    data: {
-      contact: "4325829904"
-    }
   });
 
   console.log(user);

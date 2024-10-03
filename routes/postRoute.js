@@ -5,6 +5,7 @@ const { getAllPosts, getPost, createPost } = require('../controllers/postControl
 // Get all users / Create new user
 router.route("/").get(getAllPosts).post(createPost);
 
+// Get post by ID
 router.route("/:postId").get(getPost);
 
 

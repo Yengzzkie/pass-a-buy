@@ -11,13 +11,24 @@ async function getAllUsers(req, res) {
   }
 }
 
-// Get specific user
+// Get one user
 async function getUser(req, res) {
   try {
-    const user = await db.getUserQuery(req.params.postId);
+    const user = await db.getUserQuery(req.params.userId);
     res.json(user);
   } catch (error) {
-    console.error("Error fetching post", error);
+    console.error("User not found", error);
+    res.status(404).json({ error: "User not found" });
+  }
+}
+
+// Search user by name
+async function findUserByName(req, res) {
+  try {
+    const user = await db.findUserByNameQuery(req.query.name);
+    res.json(user);
+  } catch (error) {
+    console.error("Error fetching ", error);
     res.status(404).json({ error: "Post not found" });
   }
 }
@@ -40,6 +51,7 @@ async function deleteUsernames(req, res) {
 module.exports = {
   getAllUsers,
   getUser,
+  findUserByName,
   createUser,
   deleteUsernames,
 };

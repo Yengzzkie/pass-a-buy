@@ -1,4 +1,5 @@
 const db = require("../services/userQueries");
+const bcrypt = require('bcrypt');
 
 // Get all users
 async function getAllUsers(req, res) {
@@ -28,15 +29,24 @@ async function findUserByName(req, res) {
     const user = await db.findUserByNameQuery(req.query.name);
     res.json(user);
   } catch (error) {
-    console.error("Error fetching ", error);
-    res.status(404).json({ error: "Post not found" });
+    console.error("User not found", error);
+    res.status(404).json({ error: "User not found" });
   }
 }
 
 // Create new user
 async function createUser(req, res) {
   try {
-    const newUser = await db.createUserQuery(req.body);
+    const existingUser = db.findUserByEmail(req.body.email)
+
+    if (existingUser) {
+      res.status(400).json({ message: 'User with that email already exists' })
+    }
+
+    const { password } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10)
+
+    const newUser = await db.createUserQuery({...req.body, password: hashedPassword});
     res.json(newUser);
   } catch (error) {
     console.error("Error creating user:", error.message);

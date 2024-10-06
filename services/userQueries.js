@@ -49,6 +49,13 @@ async function findUserByNameQuery(name) {
           mode: "insensitive"
         },
       },
+      include: {
+        posts: true,
+        transactionsAsBuyer: true,
+        transactionsAsTraveller: true,
+        reviewsGiven: true,
+        reviewsReceived: true,
+      },
     });
   } catch (error) {
     console.error("User not found", error.message);
@@ -56,7 +63,7 @@ async function findUserByNameQuery(name) {
   }
 }
 
-// Search user by name
+// Search user by email
 async function findUserByEmail(email) {
   try {
     return await prisma.user.findUnique({
@@ -72,8 +79,8 @@ async function findUserByEmail(email) {
 
 // Create new user
 async function createUserQuery(userInfo) {
-  const { name, email, contact, password, profilePicture, bio, location } =
-    userInfo;
+  const { name, email, contact, password, profilePicture, bio, location } = userInfo;
+  
   try {
     return await prisma.user.create({
       data: {

@@ -27,6 +27,43 @@ async function getUser(req, res) {
 async function findUserByName(req, res) {
   try {
     const user = await db.findUserByNameQuery(req.query.name);
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" })
+    }
+
+    res.json(user);
+  } catch (error) {
+    console.error("User not found", error);
+    res.status(404).json({ error: "User not found" });
+  }
+}
+
+// Search user by email
+async function findUserByEmail(req, res) {
+  try {
+    const user = await db.findUserByEmailQuery(req.query.email);
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" })
+    }
+
+    res.json(user);
+  } catch (error) {
+    console.error("User not found", error);
+    res.status(404).json({ error: "User not found" });
+  }
+}
+
+// Search user by number
+async function findUserByContact(req, res) {
+  try {
+    const user = await db.findUserByContactQuery(req.query.contact);
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" })
+    }
+
     res.json(user);
   } catch (error) {
     console.error("User not found", error);
@@ -37,7 +74,7 @@ async function findUserByName(req, res) {
 // Create new user
 async function createUser(req, res) {
   try {
-    const existingUser = db.findUserByEmail(req.body.email)
+    const existingUser = db.findUserByEmailQuery(req.body.email);
 
     if (existingUser) {
       res.status(400).json({ message: 'User with that email already exists' })
@@ -62,6 +99,8 @@ module.exports = {
   getAllUsers,
   getUser,
   findUserByName,
+  findUserByEmail,
+  findUserByContact,
   createUser,
   deleteUsernames,
 };

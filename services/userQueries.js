@@ -64,11 +64,25 @@ async function findUserByNameQuery(name) {
 }
 
 // Search user by email
-async function findUserByEmail(email) {
+async function findUserByEmailQuery(email) {
   try {
     return await prisma.user.findUnique({
       where: {
         email: email,
+      },
+    });
+  } catch (error) {
+    console.error("User not found", error.message);
+    throw error;
+  }
+}
+
+// Search user by phone number
+async function findUserByContactQuery(contact) {
+  try {
+    return await prisma.user.findUnique({
+      where: {
+        contact: contact,
       },
     });
   } catch (error) {
@@ -104,5 +118,6 @@ module.exports = {
   getUserQuery,
   createUserQuery,
   findUserByNameQuery,
-  findUserByEmail,
+  findUserByEmailQuery,
+  findUserByContactQuery
 };

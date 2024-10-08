@@ -71,6 +71,22 @@ async function findUserByContact(req, res) {
   }
 }
 
+// Change user password
+async function changeUserPassword(req, res) {
+  try {
+    const result = await db.changeUserPasswordQuery(req.body);
+
+    if (!result) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({ message: "Password updated successfully", data: result })
+  } catch (error) {
+    console.error("User not found", error);
+    res.status(404).json({ error: "User not found" });
+  }
+}
+
 // Create new user
 async function createUser(req, res) {
   try {
@@ -102,5 +118,6 @@ module.exports = {
   findUserByEmail,
   findUserByContact,
   createUser,
+  changeUserPassword,
   deleteUsernames,
 };

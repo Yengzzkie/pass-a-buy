@@ -1,8 +1,8 @@
-const express = require('express');
+const express = require("express");
 const app = express();
-const cors = require('cors');
+const cors = require("cors");
 const PORT = process.env.PORT || 8000;
-require('dotenv').config();
+require("dotenv").config();
 
 // CORS
 app.use(cors());
@@ -14,15 +14,17 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // Welcome route
-app.get('/', (req, res) => res.send('Welcome to Pass-a-buy!'))
+app.get("/", (req, res) => res.send("Welcome to Pass-a-buy!"));
+
+// Login route
+app.use("/login", require("./routes/loginRoute"));
 
 // User route
-app.use('/users', require('./routes/userRoute'))
+app.use("/users", require("./routes/userRoute"));
 
 // Posts route
-app.use('/posts', require('./routes/postRoute'));
-
+app.use("/posts", require("./routes/postRoute"));
 
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });

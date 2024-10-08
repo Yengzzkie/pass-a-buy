@@ -1,4 +1,5 @@
 const prisma = require("../db/prismaClient");
+const bcrypt = require("bcrypt");
 
 // Get all users
 async function getAllUserQuery() {
@@ -91,6 +92,26 @@ async function findUserByContactQuery(contact) {
   }
 }
 
+// Change user password
+async function changeUserPasswordQuery(userInfo) {
+  const { email, password } = userInfo;
+
+  try {
+    const newPassword = await bcrypt.hash(password, 10);
+    return await prisma.user.update({
+      where: {
+        email: email,
+      },
+      data: {
+        password: newPassword
+      }
+    })
+  } catch (error) {
+    console.error("User not found", error.message);
+    throw error;
+  }
+}
+
 // Create new user
 async function createUserQuery(userInfo) {
   const { name, email, contact, password, profilePicture, bio, location } = userInfo;
@@ -119,5 +140,6 @@ module.exports = {
   createUserQuery,
   findUserByNameQuery,
   findUserByEmailQuery,
-  findUserByContactQuery
+  findUserByContactQuery,
+  changeUserPasswordQuery
 };

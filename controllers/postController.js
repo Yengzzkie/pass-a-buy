@@ -22,7 +22,7 @@ async function getPost(req, res) {
 
 async function createPost(req, res) {
   try {
-    const newPost = await db.createPostQuery(req.body);
+    const newPost = await db.createPostQuery(req.body, req.user.id);
     res.json(newPost);
   } catch (error) {
     console.error("Error fetching usernames:", error);

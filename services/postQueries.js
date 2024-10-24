@@ -25,8 +25,8 @@ async function getPostQuery(postId) {
 }
 
 // Create post
-async function createPostQuery(postData) {
-    const { fromLocation, toLocation, travelDate, returnDate, capacity, itemType, fee, additionalDetails, userId } = postData;
+async function createPostQuery(postData, userId) {
+    const { fromLocation, toLocation, travelDate, returnDate, capacity, itemType, fee, additionalDetails } = postData;
 
     try {
         return await prisma.post.create({

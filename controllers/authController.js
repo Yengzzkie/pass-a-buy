@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const db = require("../services/userQueries");
 
-async function loginUser(req, res) {
+async function authUser(req, res) {
   const { email, password } = req.body;
 
   try {
@@ -25,11 +25,19 @@ async function loginUser(req, res) {
       { expiresIn: "1h" }
     );
 
-    res.json({ token });
+    // store the signed token to cookies
+    res.cookie('authToken', token, {
+      httpOnly: true,
+      secure: false, // set this to true on production
+      sameSite: 'strict',
+      maxAge: 3600000,
+    });
+
+    res.json({ user: user.id, email: user.email, token });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal server error" });
   }
 }
 
-module.exports = { loginUser };
+module.exports = { authUser };

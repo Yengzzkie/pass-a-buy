@@ -1,11 +1,15 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
+const cookieParser = require('cookie-parser');
 const PORT = process.env.PORT || 8000;
 require("dotenv").config();
 
 // CORS
 app.use(cors());
+
+// cookie-parser
+app.use(cookieParser());
 
 // Middleware to parse form-data
 app.use(express.urlencoded({ extended: true }));

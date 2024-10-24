@@ -87,7 +87,7 @@ async function changeUserPassword(req, res) {
   }
 }
 
-// Create new user
+// Register new user
 async function createUser(req, res) {
   try {
     const existingUser = db.findUserByEmailQuery(req.body.email);

@@ -23,6 +23,9 @@ app.get("/", (req, res) => res.send("Welcome to Pass-a-buy!"));
 // Login route
 app.use("/login", require("./routes/loginRoute"));
 
+// Logout route
+app.use("/logout", require("./routes/logoutRoute"))
+
 // User route
 app.use("/users", require("./routes/userRoute"));
 

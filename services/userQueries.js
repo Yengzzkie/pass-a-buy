@@ -93,14 +93,15 @@ async function findUserByContactQuery(contact) {
 }
 
 // Change user password
-async function changeUserPasswordQuery(userInfo) {
-  const { email, password } = userInfo;
+async function changeUserPasswordQuery(userId, password) {
+  // const { email, password } = userInfo;
 
   try {
     const newPassword = await bcrypt.hash(password, 10);
+
     return await prisma.user.update({
       where: {
-        email: email,
+        id: userId,
       },
       data: {
         password: newPassword

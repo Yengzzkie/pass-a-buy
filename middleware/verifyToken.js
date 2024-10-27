@@ -5,7 +5,7 @@ async function verifyToken(req, res, next) {
 
   // Check if the token is missing
   if (!token) {
-    return res.status(403).json({ message: "Access Denied: No Token Provided" });
+    return res.status(403).json({ message: "Access Denied: No Token Provided. Please login or create an account" });
   }
 
   // Verify the token

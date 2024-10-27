@@ -74,19 +74,31 @@ async function findUserByContact(req, res) {
 // Change user password
 async function changeUserPassword(req, res) {
   try {
-    const result = await db.changeUserPasswordQuery(req.body);
+    const { newPassword, confirmNewPassword } = req.body;
+    const loggedUserId = req.params.userId;
+
+    // compare the logged in user from the user ID attached to the cookie (req.user.id)
+    if (loggedUserId !== req.user.id) {
+      return res.status(403).json({ message: "Forbidden, You can only change your own password." })
+    }
+
+    if (newPassword !== confirmNewPassword) {
+      return res.status(400).json({ error: "New password and confirmation do not match" });
+    }
+
+    const result = await db.changeUserPasswordQuery(req.user.id, req.body.password);
 
     if (!result) {
       return res.status(404).json({ message: "User not found" });
     }
-
+    console.log(req)
     res.status(200).json({ message: "Password updated successfully", data: result })
   } catch (error) {
     console.error("User not found", error);
     res.status(404).json({ error: "User not found" });
   }
 }
-
+ 
 // Register new user
 async function createUser(req, res) {
   try {

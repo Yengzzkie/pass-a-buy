@@ -2,7 +2,8 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const db = require("../services/userQueries");
 
-async function authUser(req, res) {
+// Login controller, this module will check if a user exists in the database
+async function authenticateUser(req, res) {
   const { email, password } = req.body;
 
   try {
@@ -12,10 +13,10 @@ async function authUser(req, res) {
       return res.status(404).json({ error: "User does not exist" });
     };
 
-    // check password
+    // check if password matches from database
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(401).json({ error: "Incorrect email or password" });
+      return res.status(401).json({ error: "Incorrect password" });
     };
 
     // generate token if the user is authenticated
@@ -33,11 +34,30 @@ async function authUser(req, res) {
       maxAge: 3600000,
     });
 
-    res.json({ user: user.id, email: user.email, token });
+    res.json({ message: `Hi ${user.name}, you have logged in successfully.`, user: user.id, email: user.email, name: user.name, token });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal server error" });
   }
 }
 
-module.exports = { authUser };
+// Logout controller
+async function logoutUser(req, res) {
+
+  const token = res.cookie.authToken;
+
+  if (!token) {
+    return res.json({ message: 'Already logged out. Please log back in.' })
+  }
+
+  res.clearCookie('authToken', {
+    httpOnly: true,
+    secure: false,
+    sameSite: 'strict',
+  });
+
+  res.json({ message: 'Logged out successfully' })
+
+}
+
+module.exports = { authenticateUser, logoutUser };

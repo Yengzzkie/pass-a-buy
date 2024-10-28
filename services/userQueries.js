@@ -1,7 +1,8 @@
 const prisma = require("../db/prismaClient");
 const bcrypt = require("bcrypt");
 
-// Get all users
+// @desc: Get all users
+// @access: Admin privilege
 async function getAllUserQuery() {
   try {
     return await prisma.user.findMany({
@@ -19,7 +20,8 @@ async function getAllUserQuery() {
   }
 }
 
-// Get specific user
+// @desc: Get user's (own) profile
+// @access: Private
 async function getUserQuery(userId) {
   try {
     return await prisma.user.findUnique({
@@ -40,7 +42,8 @@ async function getUserQuery(userId) {
   }
 }
 
-// Find user by name
+// @desc: Find users by name
+// @access: Public
 async function findUserByNameQuery(name) {
   try {
     return await prisma.user.findMany({
@@ -50,7 +53,19 @@ async function findUserByNameQuery(name) {
           mode: "insensitive"
         },
       },
-      include: {
+      select: {
+        name: true,
+        email: true,
+        contact: true,
+        profilePicture: true,
+        bio: true,
+        location: true,
+        trustRating: true,
+        reviewCount: true,
+        createdAt: true,
+        isVerified: true,
+        emailVerified: true,
+        paymentVerified: true,
         posts: true,
         transactionsAsBuyer: true,
         transactionsAsTraveller: true,
@@ -64,12 +79,32 @@ async function findUserByNameQuery(name) {
   }
 }
 
-// Search user by email
+// @desc: Search user by email
+// @access: Public
 async function findUserByEmailQuery(email) {
   try {
     return await prisma.user.findUnique({
       where: {
         email: email,
+      },
+      select: {
+        name: true,
+        email: true,
+        contact: true,
+        profilePicture: true,
+        bio: true,
+        location: true,
+        trustRating: true,
+        reviewCount: true,
+        createdAt: true,
+        isVerified: true,
+        emailVerified: true,
+        paymentVerified: true,
+        posts: true,
+        transactionsAsBuyer: true,
+        transactionsAsTraveller: true,
+        reviewsGiven: true,
+        reviewsReceived: true,
       },
     });
   } catch (error) {
@@ -85,6 +120,25 @@ async function findUserByContactQuery(contact) {
       where: {
         contact: contact,
       },
+      select: {
+        name: true,
+        email: true,
+        contact: true,
+        profilePicture: true,
+        bio: true,
+        location: true,
+        trustRating: true,
+        reviewCount: true,
+        createdAt: true,
+        isVerified: true,
+        emailVerified: true,
+        paymentVerified: true,
+        posts: true,
+        transactionsAsBuyer: true,
+        transactionsAsTraveller: true,
+        reviewsGiven: true,
+        reviewsReceived: true,
+      },
     });
   } catch (error) {
     console.error("User not found", error.message);
@@ -92,7 +146,8 @@ async function findUserByContactQuery(contact) {
   }
 }
 
-// Change user password
+// @desc: Change user password
+// @access: Private
 async function changeUserPasswordQuery(userId, password) {
   // const { email, password } = userInfo;
 
@@ -113,7 +168,8 @@ async function changeUserPasswordQuery(userId, password) {
   }
 }
 
-// Create new user
+// @desc: Create new user
+// @access: Public
 async function createUserQuery(userInfo) {
   const { name, email, contact, password, profilePicture, bio, location } = userInfo;
   

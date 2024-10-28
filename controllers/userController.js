@@ -1,7 +1,8 @@
 const db = require("../services/userQueries");
 const bcrypt = require('bcrypt');
 
-// Get all users
+// @desc: Get all users
+// @access: Admin privilege
 async function getAllUsers(req, res) {
   try {
     const users = await db.getAllUserQuery();
@@ -12,9 +13,14 @@ async function getAllUsers(req, res) {
   }
 }
 
-// Get one user
+// @desc: Get user's profile
+// @access: Private
 async function getUser(req, res) {
   try {
+    if (req.params.userId !== req.user.id) {
+      return res.status(403).json({ message: "Access forbidden" });
+    }
+
     const user = await db.getUserQuery(req.params.userId);
     res.json(user);
   } catch (error) {
@@ -24,6 +30,7 @@ async function getUser(req, res) {
 }
 
 // Search user by name
+// @access: Public
 async function findUserByName(req, res) {
   try {
     const user = await db.findUserByNameQuery(req.query.name);

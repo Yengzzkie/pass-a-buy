@@ -80,7 +80,7 @@ async function findUserByNameQuery(name) {
 }
 
 // @desc: Search user by email
-// @access: Public
+// @access: Private
 async function findUserByEmailQuery(email) {
   try {
     return await prisma.user.findUnique({
@@ -88,8 +88,10 @@ async function findUserByEmailQuery(email) {
         email: email,
       },
       select: {
+        id: true,
         name: true,
         email: true,
+        password: true,
         contact: true,
         profilePicture: true,
         bio: true,
@@ -152,6 +154,7 @@ async function changeUserPasswordQuery(userId, password) {
   // const { email, password } = userInfo;
 
   try {
+    console.log(password)
     const newPassword = await bcrypt.hash(password, 10);
 
     return await prisma.user.update({
@@ -163,7 +166,7 @@ async function changeUserPasswordQuery(userId, password) {
       }
     })
   } catch (error) {
-    console.error("User not found", error.message);
+    console.error("Password change failed", error.message);
     throw error;
   }
 }

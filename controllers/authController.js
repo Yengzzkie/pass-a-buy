@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const db = require("../services/userQueries");
 
 // Login controller, this module will check if a user exists in the database
@@ -16,13 +16,13 @@ async function authenticateUser(req, res) {
     // check if user exists in the database
     const user = await db.findUserByEmailQuery(email);
     if (!user) {
-      return res.status(404).json({ error: "User does not exist" });
+      return res.status(404).json({ message: "User does not exist" });
     }
 
     // check if password matches from database
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(401).json({ error: "Incorrect password" });
+      return res.status(401).json({ message: "Incorrect password" });
     }
 
     // generate token if the user is authenticated
@@ -42,14 +42,14 @@ async function authenticateUser(req, res) {
 
     res.json({
       message: `Hi ${user.name}, you have logged in successfully.`,
-      user: user.id,
+      id: user.id,
       email: user.email,
       name: user.name,
       token,
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ error: "Internal server error" }, error.message);
   }
 }
 

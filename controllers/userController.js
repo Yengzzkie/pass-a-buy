@@ -90,15 +90,15 @@ async function changeUserPassword(req, res) {
     }
 
     if (newPassword !== confirmNewPassword) {
-      return res.status(400).json({ error: "New password and confirmation do not match" });
+      return res.status(400).json({ error: "New password do not match" });
     }
 
-    const result = await db.changeUserPasswordQuery(req.user.id, req.body.password);
+    const result = await db.changeUserPasswordQuery(req.user.id, req.body.newPassword);
 
     if (!result) {
       return res.status(404).json({ message: "User not found" });
     }
-    console.log(req)
+
     res.status(200).json({ message: "Password updated successfully", data: result })
   } catch (error) {
     console.error("User not found", error);

@@ -1,146 +1,109 @@
 import '../index.css';
-import { useState, useEffect } from 'react';
+import { useContext, useState,  } from 'react';
+import axios from 'axios';
+import { Button, Checkbox, Label, TextInput } from "flowbite-react";
+import { useNavigate } from 'react-router-dom';
+import { UserContext, UserProfileContext, LoginStatusContext } from '../context/context';
 
 function App() {
-  const [data, setData] = useState([]);
+  const { setUserCredentials } = useContext(UserContext);
+  const { setUserProfile } = useContext(UserProfileContext);
+  const { setIsLoggedIn } = useContext(LoginStatusContext);
+  const [ error, setError ] = useState("");
   const [formData, setFormData] = useState({
-    id: '',
-    title: '',
-    post: ''
+    email: '',
+    password: '',
   });
+  const navigate = useNavigate();
 
-  // Function to fetch posts from the server
-  async function fetchPosts() {
-    try {
-      const response = await fetch('http://localhost:8080/posts');
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
+// Handle form submission
+const handleLogin = async (event) => {
+  event.preventDefault();
+  
+  try {
+    // Send login request with axios
+    const response = await axios.post('http://localhost:8080/login', {
+      email: formData.email,
+      password: formData.password,
+    }, {
+      withCredentials: true,
+    });
 
-      const data = await response.json();
-      setData(data);
-    } catch (error) {
-      console.error('Error fetching posts:', error);
+    // Check response status
+    if (response.status !== 200) {
+      console.log(response.data);
+      throw new Error(`HTTP error! Status: ${response.status}`);
     }
+
+    // Save user ID from response
+    setUserCredentials(response.data.id);
+
+    // Fetch user data with the saved ID from credentials
+    const userData = await axios.get(`http://localhost:8080/users/myprofile/${response.data.id}`, { withCredentials: true });
+    setUserProfile(userData.data);
+    setIsLoggedIn(true);
+
+    // Redirect to home after a delay
+    setTimeout(() => {
+      navigate('/home');
+    }, 1000);
+
+  } catch (error) {
+    // Check if error.response exists before accessing data
+    const errorMessage = error.response ? error.response.data.message : error.message;
+    console.error('Error logging in:', errorMessage);
+    setError(errorMessage);
+    throw error;
   }
-  
-  // Fetch all users in the DB
-  async function getAllUsers() {
-    try {
-      const response = await fetch("http://localhost:8080/user");
-  
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-  
-      const users = await response.json();
-      console.log(users); // Log the users
-    } catch (error) {
-      console.error("Failed fetching users", error);
-    }
-  }
-  
-  // Fetch posts on component mount
-  useEffect(() => {
-    getAllUsers();
-    fetchPosts();
-  }, []); // Empty dependency array means this useEffect runs only on mount
+};
 
 
-  // Function to handle form submission
-  async function handleSubmit(event) {
-    event.preventDefault();
-    try {
-      const response = await fetch('http://localhost:8080/posts/new', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
+// async function handleLogout() {
+//   try {
+//     const response = await axios.post(
+//       'http://localhost:8080/logout',
+//       {},
+//       { withCredentials: true }
+//     );
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
+//     if (response.status === 200) {
+//       console.log("Logged out successfully");
+//     } else {
+//       console.log("Logout unsuccessful:", response.data);
+//     }
+//   } catch (error) {
+//     console.error("Error during logout:", error);
+//   }
+// }
 
-      // Clear form data and fetch updated posts
-      setFormData({ id: '', title: '', post: '' });
-      fetchPosts(); // Fetch the updated list of posts
-
-    } catch (error) {
-      console.error('Error adding post:', error);
-    }
-  }
-
-  // Function to handle changes in the form fields
-  function handleChange(event) {
+  // Handle changes in the form fields
+  const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData(prevFormData => ({
       ...prevFormData,
       [name]: value
     }));
-  }
-
-  // Function to handle deletion of a post
-  async function handleDelete(postId) {
-    try {
-      const response = await fetch(`http://localhost:8080/posts/${postId}`, {
-        method: 'DELETE',
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      fetchPosts(); // Fetch the updated list of posts
-
-    } catch (error) {
-      console.error('Error deleting post:', error);
-    }
-  }
+  };
 
   return (
-    <div className="flex justify-evenly items-start item">
-      <form onSubmit={handleSubmit} className="flex flex-col text-black shadow-sm shadow-gray-500 rounded-md p-4">
-        <label htmlFor="id" className="text-amber-500">ID:</label>
-        <input
-          type="number"
-          name="id"
-          id="id"
-          value={formData.id}
-          onChange={handleChange}
-        />
-
-        <label htmlFor="title" className="text-amber-500">Title:</label>
-        <input
-          type="text"
-          name="title"
-          id="title"
-          value={formData.title}
-          onChange={handleChange}
-        />
-
-        <label htmlFor="post" className="text-amber-500">Comment:</label>
-        <textarea
-          name="post"
-          id="post"
-          value={formData.post}
-          onChange={handleChange}
-        />
-
-        <button className="text-white" type="submit">Submit</button>
+    <div className="flex justify-center items-center h-full w-full">
+      <form onSubmit={handleLogin} className="flex text-white max-w-md flex-col gap-4 border w-full p-2 m-auto translate-y-1/2 shadow-md shadow-[#ccc] rounded-md">
+        <div>
+          <Label className="text-white" htmlFor="email" value="Email" />
+          <TextInput id="email" name="email" type="email" placeholder="your@email.com" required onChange={handleChange} />
+        </div>
+        <div>
+          <Label className="text-white" htmlFor="password" value="Password" />
+          <TextInput id="password" name="password" type="password" required onChange={handleChange} />
+        </div>
+        <div className="flex items-center gap-2">
+          <Checkbox id="remember" />
+          <Label htmlFor="remember" className="text-white">Remember me</Label>
+        </div>
+        <Button type="submit">Login</Button>
+        <p className='italic text-red-500 text-sm p-2'>{error}</p>
       </form>
-
-      <ul>
-        {data.map(post => (
-          <li key={post.id}>
-            <h2 className="text-xl font-bold">{post.title}</h2>
-            <p className="font-bold">Comment:</p>{post.post}
-            <button onClick={() => handleDelete(post.id)}>Delete</button>
-          </li>
-        ))}
-      </ul>
     </div>
   );
 }

@@ -13,7 +13,7 @@ router.route("/register").post(createUser);
 router.route("/search/name").get(verifyToken, findUserByName);
 
 // Search user by email
-router.route("/search/email").get(verifyToken, findUserByEmail);
+// router.route("/search/email").get(verifyToken, findUserByEmail);
 
 // Search user by number
 router.route("/search/contact").get(verifyToken, findUserByContact);

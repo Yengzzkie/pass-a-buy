@@ -3,7 +3,19 @@ const prisma = require("../db/prismaClient")
 // Get all users
 async function getAllPostsQuery() {
     try {
-        return await prisma.post.findMany();
+        return await prisma.post.findMany({
+            include: {
+                user: {
+                    select: {
+                        name: true,
+                        email: true,
+                        contact: true,
+                        profilePicture: true,
+                        location: true,
+                    }
+                }
+            }
+        });
     } catch (error) {
         console.error('Failed to get posts', error.message);
         throw error;

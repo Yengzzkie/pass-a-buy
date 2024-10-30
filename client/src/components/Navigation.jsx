@@ -24,6 +24,7 @@ export default function Navigation() {
         console.log("Logged out successfully");
         setIsLoggedIn(false);
         setUserCredentials("");
+        localStorage.removeItem("userID")
         navigate("/");
       } else {
         console.log("Logout unsuccessful:", response.data);
@@ -45,9 +46,9 @@ export default function Navigation() {
           </Navbar.Brand>
           <Navbar.Toggle />
           <Navbar.Collapse>
-            <Link to={"/home"}>Home</Link>
-            <Link to={"/"}>My Profile</Link>
-            <Link to={"/"}>Feeds</Link>
+            <Link to={"/home"}>Dashboard</Link>
+            <Link to={"/myprofile"}>My Profile</Link>
+            <Link to={"/posts"}>Feeds</Link>
             <Link onClick={handleLogout}>Logout</Link>
           </Navbar.Collapse>
         </Navbar>
@@ -60,7 +61,7 @@ export default function Navigation() {
           </Navbar.Brand>
           <Navbar.Toggle />
           <Navbar.Collapse>
-            <Link to={"/register"}>Sign Up</Link>
+            <Link to={"/register"} className="bg-[#0e7490] text-white p-2 rounded-md hover:bg-[#1693b6]">Sign Up</Link>
           </Navbar.Collapse>
         </Navbar>
       )}

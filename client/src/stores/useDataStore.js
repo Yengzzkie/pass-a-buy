@@ -1,14 +1,16 @@
 import { create } from "zustand";
 
-const useDataStore = create((set) => ({
-    userData: null,
-    setUserData: (data) => set({ userData: data }),
+export const useUserData = create((set) => ({
+    userData: {},
+    setUserData: (data) => set({ userData: data })
+}));
 
-    loginStatus: false,
-    setLoginStatus: (isLoggedIn) => set({ loginStatus: isLoggedIn }),
+export const useUserCredentials = create((set) => ({
+    loginStatus: null,
+    setLoginStatus: (status) => set({ loginStatus: status })
+}));
 
-    postData: null,
-    setPostData: (data) => set({ postData: data })
-}))
-
-export default useDataStore;
+export const usePostData = create((set) => ({
+    postData: [],
+    setPostData: (posts) => set({ postData: posts })
+}));

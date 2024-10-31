@@ -4,11 +4,11 @@ import { Navbar } from "flowbite-react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import useDataStore from "../stores/useDataStore";
+import { useUserCredentials } from "../stores/useDataStore";
 
 export default function Navigation() {
   const navigate = useNavigate();
-  const { loginStatus, setLoginStatus } = useDataStore();
+  const { loginStatus, setLoginStatus } = useUserCredentials();
 
   async function handleLogout() {
     try {

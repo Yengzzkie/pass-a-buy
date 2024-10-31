@@ -1,30 +1,29 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import useDataStore from "../stores/useDataStore";
+import { usePostData, useUserCredentials } from "../stores/useDataStore";
 
 function PostFeed() {
-  const { loginStatus, setLoginStatus, postData, setPostData } = useDataStore();
+  const { postData, setPostData } = usePostData();
+  const { loginStatus, setLoginStatus } = useUserCredentials();
   const navigate = useNavigate();
   
   async function fetchPosts() {
-    const userID = JSON.parse(localStorage.getItem("userID"));
-  
-    if (!userID) {
-      navigate("/");
-      return;
-    }
-  
     try {
+      const userID = JSON.parse(localStorage.getItem("userID"));
+  
+      if (!userID) {
+        navigate("/");
+        return;
+      };
+
       const response = await axios.get(`http://localhost:8080/posts`, {
         withCredentials: true,
       });
-      setLoginStatus(userID.status);
       setPostData(response.data);
+      setLoginStatus(userID.isAuthenticated);
     } catch (error) {
-      const errorMessage = error.response
-        ? error.response.data.message
-        : error.message;
+      const errorMessage = error.response ? error.response.data.message : error.message;
       console.error("Error fetching posts:", errorMessage);
     }
   }

@@ -4,10 +4,10 @@ import axios from "axios";
 import { Button, Checkbox, Label, TextInput } from "flowbite-react";
 import { useNavigate } from "react-router-dom";
 // import { LoginStatusContext } from "../context/context";
-import useDataStore from "../stores/useDataStore";
+import { useUserCredentials } from "../stores/useDataStore";
 
 function App() {
-  const { loginStatus, setLoginStatus } = useDataStore();
+  const { loginStatus, setLoginStatus } = useUserCredentials();
   const [error, setError] = useState("");
   const [formData, setFormData] = useState({ email: "", password: "" });
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ function App() {
 
       // Save user ID to localstorage from response
       setLoginStatus(true);
-      localStorage.setItem("userID", JSON.stringify({ id: response.data.id, status: true }));
+      localStorage.setItem("userID", JSON.stringify({ id: response.data.id, isAuthenticated: true }));
 
       setTimeout(() => {
         navigate("/dashboard");

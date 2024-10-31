@@ -1,31 +1,31 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import useDataStore from "../stores/useDataStore";
+import { useUserCredentials, useUserData } from "../stores/useDataStore";
 import axios from "axios";
 
 export default function Dashboard() {
-  const { userData, setUserData, loginStatus, setLoginStatus } = useDataStore();
+  const { userData, setUserData } = useUserData();
+  const { loginStatus, setLoginStatus } = useUserCredentials();
   const navigate = useNavigate();
 
   async function fetchUserProfile() {
-    const userID = JSON.parse(localStorage.getItem("userID"));
-    
-    if (!userID) {
-      navigate("/");
-      return;
-    }
-
     try {
+      const userID = JSON.parse(localStorage.getItem("userID"));
+    
+      if (!userID) {
+        navigate("/");
+        return;
+      }
+
       const response = await axios.get(
         `http://localhost:8080/users/myprofile/${userID.id}`,
         { withCredentials: true }
       );
-      setLoginStatus(userID.status);
+      setLoginStatus(userID.isAuthenticated);
       setUserData(response.data);
+
     } catch (error) {
-      const errorMessage = error.response
-        ? error.response.data.message
-        : error.message;
+      const errorMessage = error.response ? error.response.data.message : error.message;
       console.error("Error logging in:", errorMessage);
     }
   }

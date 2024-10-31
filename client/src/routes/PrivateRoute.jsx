@@ -1,12 +1,11 @@
 // PrivateRoute.js
-import { useContext } from 'react';
 import { Navigate } from 'react-router-dom';
-import { LoginStatusContext } from '../context/context'; 
+import useDataStore from '../stores/useDataStore';
 
 const PrivateRoute = ({ children }) => {
-  const { isLoggedIn } = useContext(LoginStatusContext);
+  const { loginStatus } = useDataStore();
 
-  return isLoggedIn ? children : <Navigate to="/" />;
+  return loginStatus ? children : <Navigate to="/" />;
 };
 
 export default PrivateRoute;

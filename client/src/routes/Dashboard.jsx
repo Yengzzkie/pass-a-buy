@@ -1,37 +1,32 @@
-import { useContext, useEffect } from "react";
-import { UserProfileContext, LoginStatusContext } from "../context/context";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import useDataStore from "../stores/useDataStore";
 import axios from "axios";
 
-export default function Home() {
-  const { userProfile, setUserProfile } = useContext(UserProfileContext);
-  const { isLoggedIn, setIsLoggedIn } = useContext(LoginStatusContext);
+export default function Dashboard() {
+  const { userData, setUserData, loginStatus, setLoginStatus } = useDataStore();
   const navigate = useNavigate();
-  // const { userCredentials } = useContext(UserContext);
-
 
   async function fetchUserProfile() {
     const userID = JSON.parse(localStorage.getItem("userID"));
     
     if (!userID) {
-      navigate("/")
-      return
-    } 
-    
-    setIsLoggedIn(userID.status);
-    
+      navigate("/");
+      return;
+    }
+
     try {
-      const userData = await axios.get(
+      const response = await axios.get(
         `http://localhost:8080/users/myprofile/${userID.id}`,
         { withCredentials: true }
       );
-      setUserProfile(userData.data);
+      setLoginStatus(userID.status);
+      setUserData(response.data);
     } catch (error) {
       const errorMessage = error.response
         ? error.response.data.message
         : error.message;
       console.error("Error logging in:", errorMessage);
-      throw error;
     }
   }
 
@@ -42,12 +37,12 @@ export default function Home() {
   return (
     <div>
       <h1 className="text-center">Home Page</h1>
-      {isLoggedIn ? (
+      {loginStatus && userData ? (
         <div>
-          <h1 className="text-5xl">Welcome, {userProfile.name}</h1>
-          <p>Email: {userProfile.email}</p>
-          <p>Location: {userProfile.location}</p>
-          <p>Mobile: {userProfile.contact}</p>
+          <h1 className="text-5xl">Welcome, {userData.name}</h1>
+          <p>Email: {userData.email}</p>
+          <p>Location: {userData.location}</p>
+          <p>Mobile: {userData.contact}</p>
 
           {/* Posts Table */}
           <h2 className="text-3xl mt-8 mb-4">Posts</h2>
@@ -59,7 +54,7 @@ export default function Home() {
               </tr>
             </thead>
             <tbody>
-              {userProfile.posts.map((post) => (
+              {userData.posts.map((post) => (
                 <tr key={post.id}>
                   <td className="border border-gray-300 p-2">
                     {post.fromLocation}

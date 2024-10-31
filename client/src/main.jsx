@@ -5,7 +5,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Root from "./routes/Root";
 import RegisterForm from "./routes/RegisterForm";
 import App from "./routes/App";
-import Home from "./routes/Home";
+import Dashboard from "./routes/Dashboard";
 import PostFeed from "./routes/PostFeed";
 import MyProfile from "./routes/MyProfile";
 import NotFound from "./routes/404";
@@ -19,10 +19,10 @@ const router = createBrowserRouter([
       { path: "/", element: <App /> },
       { path: "/register", element: <RegisterForm /> },
       {
-        path: "/home",
+        path: "/dashboard",
         element: (
 
-            <Home />
+            <Dashboard />
 
         ),
       },

@@ -1,12 +1,13 @@
 import "../index.css";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { Button, Checkbox, Label, TextInput } from "flowbite-react";
 import { useNavigate } from "react-router-dom";
-import { LoginStatusContext } from "../context/context";
+// import { LoginStatusContext } from "../context/context";
+import useDataStore from "../stores/useDataStore";
 
 function App() {
-  const { isLoggedIn, setIsLoggedIn } = useContext(LoginStatusContext);
+  const { loginStatus, setLoginStatus } = useDataStore();
   const [error, setError] = useState("");
   const [formData, setFormData] = useState({ email: "", password: "" });
   const navigate = useNavigate();
@@ -27,11 +28,11 @@ function App() {
       }
 
       // Save user ID to localstorage from response
-      setIsLoggedIn(true);
+      setLoginStatus(true);
       localStorage.setItem("userID", JSON.stringify({ id: response.data.id, status: true }));
 
       setTimeout(() => {
-        navigate("/home");
+        navigate("/dashboard");
       }, 1000);
     } catch (error) {
       const errorMessage = error.response
@@ -53,7 +54,7 @@ function App() {
 
   return (
     <div className="flex justify-center items-center h-full w-full">
-      {isLoggedIn ? (
+      {loginStatus ? (
         <h1>HOME CONTENT</h1>
       ) : (
         <form

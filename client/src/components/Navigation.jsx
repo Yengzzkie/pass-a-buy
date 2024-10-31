@@ -1,16 +1,14 @@
 "use client";
 
-import { useContext } from "react";
 import { Navbar } from "flowbite-react";
 import { Link } from "react-router-dom";
-import { LoginStatusContext, UserContext } from "../context/context";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import useDataStore from "../stores/useDataStore";
 
 export default function Navigation() {
   const navigate = useNavigate();
-  const { isLoggedIn, setIsLoggedIn } = useContext(LoginStatusContext);
-  const { setUserCredentials } = useContext(UserContext);
+  const { loginStatus, setLoginStatus } = useDataStore();
 
   async function handleLogout() {
     try {
@@ -21,9 +19,7 @@ export default function Navigation() {
       );
   
       if (response.status === 200) {
-        console.log("Logged out successfully");
-        setIsLoggedIn(false);
-        setUserCredentials("");
+        setLoginStatus(false);
         localStorage.removeItem("userID")
         navigate("/");
       } else {
@@ -34,10 +30,9 @@ export default function Navigation() {
     }
   }
   
-
   return (
     <div>
-      {isLoggedIn ? (
+      {loginStatus ? (
         <Navbar fluid className="text-gray-600">
           <Navbar.Brand as={Link} href="#">
             <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
@@ -46,7 +41,7 @@ export default function Navigation() {
           </Navbar.Brand>
           <Navbar.Toggle />
           <Navbar.Collapse>
-            <Link to={"/home"}>Dashboard</Link>
+            <Link to={"/dashboard"}>Dashboard</Link>
             <Link to={"/myprofile"}>My Profile</Link>
             <Link to={"/posts"}>Feeds</Link>
             <Link onClick={handleLogout}>Logout</Link>

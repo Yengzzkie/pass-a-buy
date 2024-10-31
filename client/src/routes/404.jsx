@@ -4,7 +4,7 @@ function NotFound() {
   const navigate = useNavigate();
 
   const handleRedirect = () => {
-    navigate('/home');
+    navigate('/dashboard');
   };
 
   return (
@@ -15,7 +15,7 @@ function NotFound() {
         onClick={handleRedirect} 
         className="mt-4 px-6 py-2 bg-blue-500 text-white rounded"
       >
-        Go Back to Home
+        Go Back to Dashboard
       </button>
     </div>
   );

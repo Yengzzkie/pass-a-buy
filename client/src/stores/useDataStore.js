@@ -5,9 +5,16 @@ export const useUserData = create((set) => ({
     setUserData: (data) => set({ userData: data })
 }));
 
-export const useUserCredentials = create((set) => ({
-    loginStatus: null,
-    setLoginStatus: (status) => set({ loginStatus: status })
+export const useUserID = create((set) => ({
+    // initial loginStatus will be synced from the localStorage instead of just setting it to null,
+    // I find this efficient especially for Navbar's conditional rendering if a user is logged in or not
+    userId: JSON.parse(localStorage.getItem("userID")) || null,
+    setUserId: (id) => set({ userId: id })
+}));
+
+export const useUserAuth = create((set) => ({
+    auth: JSON.parse(localStorage.getItem("auth")) || false,
+    setAuth: (auth) => set({ auth: auth })
 }));
 
 export const usePostData = create((set) => ({

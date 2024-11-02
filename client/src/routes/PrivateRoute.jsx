@@ -1,10 +1,10 @@
 import { Navigate } from 'react-router-dom';
-import { useUserCredentials } from '../stores/useDataStore';
+import { useUserAuth } from '../stores/useDataStore';
 
 const PrivateRoute = ({ children }) => {
-  const { loginStatus } = useUserCredentials;
+  const { auth } = useUserAuth();
 
-  return loginStatus ? children : <Navigate to="/" />;
+  return auth ? children : <Navigate to="/" />;
 };
 
 export default PrivateRoute;

@@ -38,11 +38,10 @@ const router = createBrowserRouter([
       },
       {
         path: "/myprofile",
-        element: (
-          <PrivateRoute>
+        element: 
+
             <MyProfile />
-          </PrivateRoute>
-        ),
+,
       },
       { path: "*", element: <NotFound /> },
     ],
@@ -54,3 +53,10 @@ createRoot(document.getElementById("root")).render(
     <RouterProvider router={router} />
   </StrictMode>
 );
+
+
+
+// (
+//   <PrivateRoute>
+//   </PrivateRoute>
+// )

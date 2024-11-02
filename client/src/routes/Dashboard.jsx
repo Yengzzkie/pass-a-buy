@@ -1,29 +1,30 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useUserCredentials, useUserData } from "../stores/useDataStore";
+import { useUserAuth, useUserData } from "../stores/useDataStore";
 import axios from "axios";
 
 export default function Dashboard() {
   const { userData, setUserData } = useUserData();
-  const { setLoginStatus } = useUserCredentials();
+  const { setAuth } = useUserAuth();
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const authenticated = JSON.parse(localStorage.getItem("auth"));
+  const userID = JSON.parse(localStorage.getItem("userID"))
 
   async function fetchUserProfile() {
     try {
-      setLoading(true);
-      const userID = JSON.parse(localStorage.getItem("userID"));
-      if (!userID) {
+      if (!authenticated) {
         navigate("/");
         return;
       }
+      setLoading(true);
       
       axios.get(
         `http://localhost:8080/users/myprofile/${userID.id}`,
         { withCredentials: true }
       )
       .then((data) => {
-        setLoginStatus(userID.isAuthenticated);
+        setAuth(authenticated.isAuthenticated);
         setUserData(data.data);
       })
     } catch (error) {

@@ -3,18 +3,18 @@ import { useState } from "react";
 import axios from "axios";
 import { Button, Checkbox, Label, TextInput } from "flowbite-react";
 import { useNavigate } from "react-router-dom";
-import { useUserCredentials, useUserData } from "../stores/useDataStore";
+import { useUserAuth, useUserData } from "../stores/useDataStore";
 
 function App() {
-  const { setLoginStatus } = useUserCredentials();
+  const { setAuth } = useUserAuth();
   const { setUserData } = useUserData();
   const [error, setError] = useState("");
   const [formData, setFormData] = useState({ email: "", password: "" });
   const navigate = useNavigate();
 
-  const handleLogin = async (event) => {
-    event.preventDefault();
-
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    
     try {
       const response = await axios.post(
         "http://localhost:8080/login",
@@ -27,14 +27,16 @@ function App() {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
-      // Save user ID to localstorage from response
-      setLoginStatus(true);
-      localStorage.setItem(
-        "userID",
-        JSON.stringify({ id: response.data.id, isAuthenticated: true })
-      );
-
-      // fetch the user's data after succesful authentication for Homepage's consumption
+      // Save user ID and isAuthentication status to localstorage from response
+      // so it can be accessible across pages specially the navbar so that
+      // pages can render proper state accordingly
+      setAuth(true);
+      localStorage.setItem("userID", JSON.stringify({ id: response.data.id }));
+      localStorage.setItem("auth", JSON.stringify({ isAuthenticated: true }));
+      
+      // fetch the user's data after succesful authentication for Dashboard's fast rendering
+      // I know it is not ideal, just in case the app grows bigger and the user data become more expensive
+      // to fetch, I want to render it here after successful login
       const user = await axios.get(
         `http://localhost:8080/users/myprofile/${response.data.id}`,
         { withCredentials: true }

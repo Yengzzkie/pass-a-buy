@@ -1,20 +1,24 @@
-"use client";
-
 import { Navbar } from "flowbite-react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useUserCredentials } from "../stores/useDataStore";
-import { useEffect } from "react";
+import { useUserAuth } from "../stores/useDataStore";
 
 export default function Navigation() {
   const navigate = useNavigate();
-  const { loginStatus, setLoginStatus } = useUserCredentials();
+  const { auth, setAuth } = useUserAuth();
 
-  async function checkSessionStatus() {
-    const userCredentials = JSON.parse(localStorage.getItem("userID"));
-    return setLoginStatus(userCredentials.isAuthenticated);
-  }
+  useEffect(() => {
+    const storedLoginStatus = JSON.parse(localStorage.getItem("auth"));
+    // if there is no stored token/auth in the local storage, we want to stop the code
+    // execution so we dont end up in a rerender hell
+    if (!storedLoginStatus) {
+      return
+    }
+
+    setAuth(storedLoginStatus);
+}, [setAuth]);
 
   async function handleLogout() {
     try {
@@ -25,8 +29,9 @@ export default function Navigation() {
       );
   
       if (response.status === 200) {
-        setLoginStatus(false);
-        localStorage.removeItem("userID")
+        setAuth(false);
+        localStorage.removeItem("userID");
+        localStorage.removeItem("auth");
         navigate("/login");
       } else {
         console.log("Logout unsuccessful:", response.data);
@@ -36,11 +41,9 @@ export default function Navigation() {
     }
   }
 
-  useEffect(() => {checkSessionStatus()}, []);
-  
   return (
     <div>
-      {loginStatus ? (
+      {auth ? (
         <Navbar fluid className="text-gray-600">
           <Navbar.Brand as={Link} href="#">
             <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">

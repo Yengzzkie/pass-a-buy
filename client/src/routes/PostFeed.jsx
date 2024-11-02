@@ -7,10 +7,10 @@ function PostFeed() {
   const { postData, setPostData } = usePostData();
   const { loginStatus, setLoginStatus } = useUserCredentials();
   const navigate = useNavigate();
+  const userID = JSON.parse(localStorage.getItem("userID"));
   
   async function fetchPosts() {
     try {
-      const userID = JSON.parse(localStorage.getItem("userID"));
   
       if (!userID) {
         navigate("/");
@@ -22,10 +22,21 @@ function PostFeed() {
       });
       setPostData(response.data);
       setLoginStatus(userID.isAuthenticated);
+      console.log(response)
     } catch (error) {
       const errorMessage = error.response ? error.response.data.message : error.message;
       console.error("Error fetching posts:", errorMessage);
     }
+  }
+
+  function filterPosts() {
+    const filteredPost = postData.filter((post) => (post.userId === userID.id));
+    setPostData(filteredPost)
+  }
+
+  function reversePosts() {
+    const reversedPost = postData.reverse();
+    setPostData(reversedPost);
   }
   
   useEffect(() => {
@@ -36,13 +47,16 @@ function PostFeed() {
     <div className="p-6 bg-gray-100 min-h-screen">
       <h1 className="text-2xl font-semibold text-gray-700 mb-6">Post Feed</h1>
 
+      <button className="text-gray-700 border-2 border-gray-700" onClick={filterPosts}>Filter</button>
+      <button className="text-gray-700 border-2 border-gray-700" onClick={reversePosts}>Reverse</button>
+
       {/* Feed container */}
       <div className="grid gap-6">
         {loginStatus && postData ? (
           postData.map((post) => (
             <div key={post.id} className="bg-white shadow-lg rounded-lg p-4">
               {/* Header: Poster Info */}
-              <div className="flex items-center mb-4">
+              <div className="flex items-center mb-4 relative">
                 <div className="flex-shrink-0 mr-4">
                   <img
                     src={`https://ui-avatars.com/api/?name=${post.user.name}&background=random`}
@@ -56,6 +70,8 @@ function PostFeed() {
                   </h2>
                   <p className="text-sm text-gray-500">{post.user.email}</p>
                 </div>
+                <p className="text-black m-auto">{post.userId === userID.id ? (<button className="border-gray-700">Edit</button>) : (null)}</p>
+                {post.status === "PENDING" ? (<p className="text-[#ff8c28] font-semibold ml-auto mr-4">{post.status}</p>) : (<p className="text-[green] font-semibold absolute top-2 right-2">{post.status}</p>)}
               </div>
   
               {/* Post Details */}

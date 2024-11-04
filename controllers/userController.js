@@ -13,7 +13,7 @@ async function getAllUsers(req, res) {
   }
 }
 
-// @desc: Get user's profile
+// @desc: Get user's (own) profile
 // @access: Private
 async function getUser(req, res) {
   try {
@@ -22,6 +22,18 @@ async function getUser(req, res) {
     }
 
     const user = await db.getUserQuery(req.params.userId);
+    res.json(user);
+  } catch (error) {
+    console.error("User not found", error);
+    res.status(404).json({ error: "User not found" });
+  }
+}
+
+// @desc: Get user by ID
+// @access: Private
+async function getUserById(req, res) {
+  try {
+    const user = await db.getUserByIdQuery(req.params.userId);
     res.json(user);
   } catch (error) {
     console.error("User not found", error);
@@ -109,20 +121,20 @@ async function changeUserPassword(req, res) {
 // Register new user
 async function createUser(req, res) {
   try {
-    const existingUser = db.findUserByEmailQuery(req.body.email);
+    const existingUser = await db.findUserByEmailQueryForAuthentication(req.body.email);
 
     if (existingUser) {
-      res.status(400).json({ message: 'User with that email already exists' })
+      return res.status(400).json({ message: 'User with that email already exists' })
     }
 
     const { password } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10)
 
-    const newUser = await db.createUserQuery({...req.body, password: hashedPassword});
-    res.json(newUser);
+    const newUser = await db.createUserQuery(req.body, hashedPassword);
+    res.status(201).json(newUser);
   } catch (error) {
     console.error("Error creating user:", error.message);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(400).json({ message: "Bad Request, make sure all fields are valid" });
   }
 }
 
@@ -133,6 +145,7 @@ async function deleteUsernames(req, res) {
 module.exports = {
   getAllUsers,
   getUser,
+  getUserById,
   findUserByName,
   findUserByEmail,
   findUserByContact,

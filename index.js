@@ -1,19 +1,23 @@
 const prisma = require("./db/prismaClient");
-const { getAllProduct, createProduct } = require("./services/productQueries");
-const { getAllProducts } = require("./controllers/productController");
-const { getAllAisle } = require("./services/aisleQueries");
+const { findUserByEmailQueryForAuthentication } = require("./services/userQueries");
+
 
 // *********************************************
 // THIS FILE IS FOR TESTING DATABASE QUERIES!!!
 
 async function main() {
-  const user = await prisma.user.findMany({
-    where: {
-        name: {contains: "kyle", mode: "insensitive"},
-    },
-  });
-
+  const user = await findUserByEmailQueryForAuthentication("mang.jose@yahoo.com")
   console.log(user);
+  // const users = await prisma.user.findMany();
+  // for (const user of users) {
+  //   if (user.location) {
+  //     const [city, country] = user.location.split(',').map(str => str.trim());
+  //     await prisma.user.update({
+  //       where: { id: user.id },
+  //       data: { city, country },
+  //     });
+  //   }
+  // }
 }
 
 main()
@@ -26,5 +30,5 @@ main()
     process.exit(1);
   });
 
-// THIS FILE IS FOR TESTING DATABASE QUERIES!!!
+// THIS FILE IS FOR TESTING DATABASE QUERIES!!! run node index.js to run test
 // *********************************************

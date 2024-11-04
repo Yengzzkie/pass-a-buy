@@ -18,8 +18,8 @@ export default function UserProfile() {
   }, [])
 
   return (
-    <div>
-      <h1>{userData.name}</h1>
+    <div className="px-8 py-4">
+      <h1>{userData.firstName} </h1>
     </div>
   )
 }

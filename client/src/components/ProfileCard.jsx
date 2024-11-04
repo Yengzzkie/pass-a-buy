@@ -7,12 +7,12 @@ import {
   Tooltip,
 } from "@material-tailwind/react";
 
-export default function ProfileCard({ name, email }) {
+export default function ProfileCard({ firstName, lastName, email }) {
   return (
     <Card className="w-96">
       <CardHeader floated={false} className="h-80">
         <img
-          src={`https://ui-avatars.com/api/?name=${name}&background=random`}
+          src={`https://ui-avatars.com/api/?name=${firstName}${lastName}&background=random`}
           alt="profile-picture"
           className="w-full"
         />

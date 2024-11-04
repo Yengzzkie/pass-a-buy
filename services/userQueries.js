@@ -6,7 +6,22 @@ const bcrypt = require("bcrypt");
 async function getAllUserQuery() {
   try {
     return await prisma.user.findMany({
-      include: {
+      select: {
+        id: true,
+        firstName: true,
+        lastName: true,
+        email: true,
+        contact: true,
+        profilePicture: true,
+        bio: true,
+        city: true,
+        country: true,
+        trustRating: true,
+        reviewCount: true,
+        createdAt: true,
+        isVerified: true,
+        emailVerified: true,
+        paymentVerified: true,
         posts: true,
         transactionsAsBuyer: true,
         transactionsAsTraveller: true,
@@ -42,24 +57,24 @@ async function getUserQuery(userId) {
   }
 }
 
-// @desc: Find users by name
-// @access: Public
-async function findUserByNameQuery(name) {
+// @desc: Get user by ID
+// @access: Private
+async function getUserByIdQuery(userId) {
   try {
-    return await prisma.user.findMany({
+    return await prisma.user.findUnique({
       where: {
-        name: {
-          contains: name,
-          mode: "insensitive"
-        },
+        id: userId,
       },
       select: {
-        name: true,
+        id: true,
+        firstName: true,
+        lastName: true,
         email: true,
         contact: true,
         profilePicture: true,
         bio: true,
-        location: true,
+        city: true,
+        country: true,
         trustRating: true,
         reviewCount: true,
         createdAt: true,
@@ -79,6 +94,66 @@ async function findUserByNameQuery(name) {
   }
 }
 
+// @desc: Find users by name
+// @access: Public
+async function findUserByNameQuery(name) {
+  try {
+    return await prisma.user.findMany({
+      where: {
+        firstName: {
+          contains: name,
+          mode: "insensitive"
+        },
+      },
+      select: {
+        id: true,
+        firstName: true,
+        lastName: true,
+        email: true,
+        contact: true,
+        profilePicture: true,
+        bio: true,
+        city: true,
+        country: true,
+        trustRating: true,
+        reviewCount: true,
+        createdAt: true,
+        isVerified: true,
+        emailVerified: true,
+        paymentVerified: true,
+        posts: true,
+        transactionsAsBuyer: true,
+        transactionsAsTraveller: true,
+        reviewsGiven: true,
+        reviewsReceived: true,
+      },
+    });
+  } catch (error) {
+    console.error("User not found", error.message);
+    throw error;
+  }
+}
+
+async function findUserByEmailQueryForAuthentication(email) {
+  try {
+    return await prisma.user.findUnique({
+      where: {
+        email: email,
+      },
+      select: {
+        id: true,
+        firstName: true,
+        lastName: true,
+        email: true,
+        password: true,
+      },
+    });
+  } catch (error) {
+    console.error("User not found", error.message);
+    throw error;
+  }
+}
+
 // @desc: Search user by email
 // @access: Private
 async function findUserByEmailQuery(email) {
@@ -89,13 +164,14 @@ async function findUserByEmailQuery(email) {
       },
       select: {
         id: true,
-        name: true,
+        firstName: true,
+        lastName: true,
         email: true,
-        password: true,
         contact: true,
         profilePicture: true,
         bio: true,
-        location: true,
+        city: true,
+        country: true,
         trustRating: true,
         reviewCount: true,
         createdAt: true,
@@ -123,12 +199,15 @@ async function findUserByContactQuery(contact) {
         contact: contact,
       },
       select: {
-        name: true,
+        id: true,
+        firstName: true,
+        lastName: true,
         email: true,
         contact: true,
         profilePicture: true,
         bio: true,
-        location: true,
+        city: true,
+        country: true,
         trustRating: true,
         reviewCount: true,
         createdAt: true,
@@ -154,7 +233,6 @@ async function changeUserPasswordQuery(userId, password) {
   // const { email, password } = userInfo;
 
   try {
-    console.log(password)
     const newPassword = await bcrypt.hash(password, 10);
 
     return await prisma.user.update({
@@ -173,19 +251,19 @@ async function changeUserPasswordQuery(userId, password) {
 
 // @desc: Create new user
 // @access: Public
-async function createUserQuery(userInfo) {
-  const { name, email, contact, password, profilePicture, bio, location } = userInfo;
+async function createUserQuery(userInfo, password) {
+  const { firstName, lastName, email, contact, city, country } = userInfo;
   
   try {
     return await prisma.user.create({
       data: {
-        name: name,
+        firstName: firstName,
+        lastName: lastName,
         email: email,
         contact: contact,
         password: password,
-        profilePicture: profilePicture,
-        bio: bio,
-        location: location,
+        city: city,
+        country: country,
       },
     });
   } catch (error) {
@@ -197,9 +275,11 @@ async function createUserQuery(userInfo) {
 module.exports = {
   getAllUserQuery,
   getUserQuery,
+  getUserByIdQuery,
   createUserQuery,
   findUserByNameQuery,
   findUserByEmailQuery,
   findUserByContactQuery,
-  changeUserPasswordQuery
-};
+  changeUserPasswordQuery,
+  findUserByEmailQueryForAuthentication
+}; 

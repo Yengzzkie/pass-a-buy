@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getAllUsers, getUser, createUser, findUserByName, findUserByEmail, findUserByContact, changeUserPassword } = require('../controllers/userController');
+const { getAllUsers, getUser, getUserById, createUser, findUserByName, findUserByEmail, findUserByContact, changeUserPassword } = require('../controllers/userController');
 const { verifyToken } = require('../middleware/verifyToken');
 
 // Get all users / Create new user
@@ -13,12 +13,14 @@ router.route("/register").post(createUser);
 router.route("/search/name").get(verifyToken, findUserByName);
 
 // Search user by email
-// router.route("/search/email").get(verifyToken, findUserByEmail);
+router.route("/search/email").get(verifyToken, findUserByEmail);
 
 // Search user by number
 router.route("/search/contact").get(verifyToken, findUserByContact);
 
 // Get user by ID
+router.route("/search/:userId").get(verifyToken, getUserById);
+
 // User has to be logged in to be able to view other user's profile
 router.route("/myprofile/:userId").get(verifyToken, getUser).put(verifyToken, changeUserPassword);
 

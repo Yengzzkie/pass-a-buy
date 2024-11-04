@@ -14,7 +14,7 @@ async function authenticateUser(req, res) {
     }
 
     // check if user exists in the database
-    const user = await db.findUserByEmailQuery(email);
+    const user = await db.findUserByEmailQueryForAuthentication(email);
     if (!user) {
       return res.status(404).json({ message: "User does not exist" });
     }
@@ -29,7 +29,7 @@ async function authenticateUser(req, res) {
     const token = jwt.sign(
       { id: user.id, email: user.email },
       process.env.JWT_SECRET,
-      { expiresIn: "1h" }
+      { expiresIn: "1d" }
     );
 
     // store the signed token to cookies
@@ -41,10 +41,10 @@ async function authenticateUser(req, res) {
     });
 
     res.json({
-      message: `Hi ${user.name}, you have logged in successfully.`,
+      message: `Hi ${user.firstName}, you have logged in successfully.`,
       id: user.id,
       email: user.email,
-      name: user.name,
+      name: `${user.firstName} ${user.lastName}`,
       status: true,
       token,
     });

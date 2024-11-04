@@ -8,15 +8,19 @@ import { FaUser } from "react-icons/fa";
 import { FaFlagUsa } from "react-icons/fa6";
 import { FaTreeCity } from "react-icons/fa6";
 import { FaRegUser } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import { useToast } from "../utils/useToast";
 import axios from "axios";
 
 export default function RegisterForm() {
+  const { notifySuccess } = useToast();
+  const navigate = useNavigate();
+  const [error, setError] = useState(null);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     email: "",
     password: "",
-    repeatPassword: "",
     contact: "",
     city: "",
     country: ""
@@ -30,15 +34,13 @@ export default function RegisterForm() {
       return;
     }
 
-    const name = `${formData.firstName} ${formData.lastName}`;
-    const location = `${formData.city}, ${formData.country}`;
-    const submissionData = { ...formData, name, location };
-    // console.log(submissionData);
-
     try {
-      const registerData = await axios.post("http://localhost:8080/users/register", { withCredentials: true }, submissionData);
+      const registerData = await axios.post("http://localhost:8080/users/register", formData);
       console.log("Successfully registered user:", registerData);
+      notifySuccess("Registration successful!");
+      navigate("/login")
     } catch (error) {
+      setError(error?.response?.data?.message);
       console.error("Registration failed:", error);
     }
   }
@@ -55,7 +57,7 @@ export default function RegisterForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col max-w-lg gap-4 border p-6 mt-4 mx-auto shadow-md shadow-[#ccc] rounded-md"
+      className="registration-form flex flex-col max-w-lg gap-4 border p-6 mt-4 mx-auto shadow-md shadow-[#ccc] rounded-md"
     >
       {/* FIRST BLOCK */}
       <div>
@@ -236,6 +238,7 @@ export default function RegisterForm() {
         </div>
         <Button type="submit">Register new account</Button>
       </div>
+      <p className="text-red-500 italic">{error}</p>
     </form>
   );
 }

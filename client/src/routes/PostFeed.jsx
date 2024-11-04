@@ -92,14 +92,14 @@ function PostFeed() {
                   <div className="flex items-center mb-4 relative">
                     <div className="flex-shrink-0 mr-4">
                       <img
-                        src={`https://ui-avatars.com/api/?name=${post.user.name}&background=random`}
+                        src={`https://ui-avatars.com/api/?name=${post.user.firstName}${post.user.lastName}&background=random`}
                         alt="User Avatar"
                         className="w-12 h-12 rounded-full"
                       />
                     </div>
                     <div>
                       <h2 className="text-lg font-semibold text-gray-800">
-                        {post.user.name}
+                        {post.user.firstName} {post.user.lastName}
                       </h2>
                       <p className="text-sm text-gray-500">{post.user.email}</p>
                     </div>

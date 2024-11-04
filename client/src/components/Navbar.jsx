@@ -222,9 +222,7 @@ export default function NavbarDefault() {
           )}
         </IconButton>
       </div>
-      <Collapse open={openNav}>
-        <div className="container mx-auto">{navList}</div>
-      </Collapse>
+      
     </Navbar>
   );
 }

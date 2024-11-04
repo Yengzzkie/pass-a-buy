@@ -7,11 +7,13 @@ async function getAllPostsQuery() {
             include: {
                 user: {
                     select: {
-                        name: true,
+                        firstName: true,
+                        lastName: true,
                         email: true,
                         contact: true,
                         profilePicture: true,
-                        location: true,
+                        city: true,
+                        country: true
                     }
                 }
             }
@@ -38,11 +40,12 @@ async function getPostQuery(postId) {
 
 // Create post
 async function createPostQuery(postData, userId) {
-    const { fromLocation, toLocation, travelDate, returnDate, capacity, itemType, fee, additionalDetails } = postData;
+    const { title, fromLocation, toLocation, travelDate, returnDate, capacity, itemType, fee, additionalDetails } = postData;
 
     try {
         return await prisma.post.create({
             data: {
+                title: title,
                 fromLocation: fromLocation,
                 toLocation: toLocation,
                 travelDate: travelDate,

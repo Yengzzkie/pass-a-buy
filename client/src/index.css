@@ -42,3 +42,7 @@ button {
   color: peachpuff;
   cursor: pointer;
 }
+
+.registration-form label {
+ color: var(--light-gray)
+}

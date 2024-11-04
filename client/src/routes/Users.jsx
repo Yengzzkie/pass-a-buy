@@ -30,7 +30,7 @@ function Users() {
 
   return (
     <div className="lg:p-4">
-      <div className="hidden items-center gap-x-2 lg:flex justify-end mr-4 mb-4">
+      <div className="items-center gap-x-2 lg:flex justify-end mr-4 mb-4 sm:">
         <div className="relative flex w-full gap-2 md:w-max">
           <Input
             type="search"
@@ -65,7 +65,7 @@ function Users() {
             </svg>
           </div>
         </div>
-        <Button size="md" className="rounded-lg ">
+        <Button size="md" className="rounded-lg">
           Search
         </Button>
       </div>
@@ -75,7 +75,7 @@ function Users() {
         ) : (
           users.map((user) => (
             <Link key={user.id} to={`/user/${user.id}`}>
-              <ProfileCard name={user.name} email={user.email} />
+              <ProfileCard firstName={user.firstName} lastName={user.lastName} email={user.email} />
             </Link>
           ))
         )}

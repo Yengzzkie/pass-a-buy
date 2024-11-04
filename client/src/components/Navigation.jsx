@@ -44,9 +44,9 @@ export default function Navigation() {
   return (
     <div>
       {auth ? (
-        <Navbar fluid className="text-gray-600">
+        <Navbar fluid className="bg-[#0e7490]">
           <Navbar.Brand as={Link} href="#">
-            <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
+            <span className="self-center whitespace-nowrap text-xl font-semibold text-white ">
               Pass-a-Buy
             </span>
           </Navbar.Brand>
@@ -59,17 +59,14 @@ export default function Navigation() {
           </Navbar.Collapse>
         </Navbar>
       ) : (
-        <Navbar fluid className="text-gray-600">
+        <Navbar fluid className="bg-[#0e7490] text-white">
           <Navbar.Brand as={Link} href="#">
             <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
               Pass-a-Buy
             </span>
           </Navbar.Brand>
           <Navbar.Toggle />
-          <Navbar.Collapse>
-            <Link to={"/register"} className="bg-[#0e7490] text-white p-2 rounded-md hover:bg-[#1693b6]">Sign Up</Link>
-            <Link to={"/login"} className="bg-[#0e7490] text-white p-2 rounded-md hover:bg-[#1693b6]">Login</Link>
-          </Navbar.Collapse>
+      
         </Navbar>
       )}
     </div>

@@ -7,10 +7,12 @@ import RegisterForm from "./routes/RegisterForm";
 import Login from "./routes/Login";
 import Dashboard from "./routes/Dashboard";
 import PostFeed from "./routes/PostFeed";
-import MyProfile from "./routes/MyProfile";
+import Users from "./routes/Users";
 import NotFound from "./routes/404";
 import Home from "./routes/Home";
 import PrivateRoute from "./routes/PrivateRoute";
+import CreatePost from "./routes/CreatePost";
+import UserProfile from "./routes/UserProfile";
 
 const router = createBrowserRouter([
   {
@@ -20,30 +22,47 @@ const router = createBrowserRouter([
       { path: "/", element: <Home /> },
       { path: "/login", element: <Login /> },
       { path: "/register", element: <RegisterForm /> },
+      { path: "*", element: <NotFound /> },
       {
         path: "/dashboard",
         element: (
-
+          <PrivateRoute>
             <Dashboard />
-
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/users",
+        element: (
+          <PrivateRoute>
+            <Users />
+          </PrivateRoute>
         ),
       },
       {
         path: "/posts",
         element: (
-
+          <PrivateRoute>
             <PostFeed />
-
+          </PrivateRoute>
         ),
       },
       {
-        path: "/myprofile",
-        element: 
-
-            <MyProfile />
-,
+        path: "/posts/create",
+        element: (
+          <PrivateRoute>
+            <CreatePost />
+          </PrivateRoute>
+        ),
       },
-      { path: "*", element: <NotFound /> },
+      {
+        path: "/user/:userId",
+        element: (
+          <PrivateRoute>
+            <UserProfile />
+          </PrivateRoute>
+        ),
+      },
     ],
   },
 ]);
@@ -53,8 +72,6 @@ createRoot(document.getElementById("root")).render(
     <RouterProvider router={router} />
   </StrictMode>
 );
-
-
 
 // (
 //   <PrivateRoute>

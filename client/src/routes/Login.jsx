@@ -1,9 +1,18 @@
 import "../index.css";
-import { useState } from "react";
 import axios from "axios";
-import { Button, Checkbox, Label, TextInput } from "flowbite-react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUserAuth, useUserData } from "../stores/useDataStore";
+import {
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  Typography,
+  Input,
+  Checkbox,
+  Button,
+} from "@material-tailwind/react";
 
 function App() {
   const { setAuth } = useUserAuth();
@@ -66,40 +75,42 @@ function App() {
   };
 
   return (
-    <div className="flex justify-center items-center h-full w-full">
+    <div className="flex justify-center items-center h-full w-full h-screen">
       <form
         onSubmit={handleLogin}
-        className="flex text-white max-w-md flex-col gap-4 border w-full p-2 m-auto translate-y-1/2 shadow-md shadow-[#ccc] rounded-md"
+        className="flex text-white max-w-md flex-col w-full p-2 m-auto transk"
       >
-        <div>
-          <Label className="text-white" htmlFor="email" value="Email" />
-          <TextInput
-            id="email"
-            name="email"
-            type="email"
-            placeholder="your@email.com"
-            required
-            onChange={handleChange}
-          />
+        <Card className="w-96">
+      <CardHeader variant="gradient" color="gray" className="blue-gradient mb-4 grid h-28 place-items-center">
+        <Typography variant="h3" color="white">
+          Sign In
+        </Typography>
+      </CardHeader>
+      <CardBody className="flex flex-col gap-4">
+        <Input onChange={handleChange} label="Email" size="lg"  type="email" name="email" required />
+        <Input onChange={handleChange} label="Password" size="lg" type="password" name="password" required />
+        <p className="italic text-red-500 text-sm">{error}</p> 
+        <div className="-ml-2.5">
+          <Checkbox label="Remember Me" />
         </div>
-        <div>
-          <Label className="text-white" htmlFor="password" value="Password" />
-          <TextInput
-            id="password"
-            name="password"
-            type="password"
-            required
-            onChange={handleChange}
-          />
-        </div>
-        <div className="flex items-center gap-2">
-          <Checkbox id="remember" />
-          <Label htmlFor="remember" className="text-white">
-            Remember me
-          </Label>
-        </div>
-        <Button type="submit">Login</Button>
-        <p className="italic text-red-500 text-sm p-2">{error}</p>
+      </CardBody>
+      <CardFooter className="pt-0">
+        <Button variant="gradient" type="submit" className="blue-gradient" fullWidth>
+          Sign In
+        </Button>
+        <p className="text-center">or</p>
+        <Button className="flex items-center gap-3 mx-auto" size="lg" variant="outlined" color="blue-gray" >
+        <img src="https://docs.material-tailwind.com/icons/google.svg" alt="metamask" className="h-6 w-6" />
+        Continue with Google
+      </Button>
+        <Typography variant="small" className="mt-6 flex justify-center">
+          Don&apos;t have an account?
+          <Typography onClick={() => navigate("/register")} variant="small" color="blue-gray" className="ml-1 font-bold cursor-pointer underline">
+            Sign up
+          </Typography>
+        </Typography>
+      </CardFooter>
+    </Card>
       </form>
     </div>
   );

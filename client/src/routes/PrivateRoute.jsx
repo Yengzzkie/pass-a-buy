@@ -4,7 +4,7 @@ import { useUserAuth } from '../stores/useDataStore';
 const PrivateRoute = ({ children }) => {
   const { auth } = useUserAuth();
 
-  return auth ? children : <Navigate to="/" />;
+  return auth ? children : <Navigate to="/login" />;
 };
 
 export default PrivateRoute;

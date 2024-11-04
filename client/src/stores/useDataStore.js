@@ -6,13 +6,13 @@ export const useUserData = create((set) => ({
 }));
 
 export const useUserID = create((set) => ({
-    // initial loginStatus will be synced from the localStorage instead of just setting it to null,
-    // I find this efficient especially for Navbar's conditional rendering if a user is logged in or not
     userId: JSON.parse(localStorage.getItem("userID")) || null,
     setUserId: (id) => set({ userId: id })
 }));
 
 export const useUserAuth = create((set) => ({
+    // initial loginStatus will be synced from the localStorage instead of just setting it to null,
+    // I find this efficient especially for Navbar's conditional rendering if a user is logged in or not
     auth: JSON.parse(localStorage.getItem("auth")) || false,
     setAuth: (auth) => set({ auth: auth })
 }));

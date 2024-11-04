@@ -10,8 +10,20 @@
 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #161616;
+  color: rgba(235, 235, 235, 0.87);
+  background-color: #F9FAFB;
+  --navy-blue: #0e7490;
+  --light-blue: #1693b6;
+  --dark-gray: #2E2E2E;
+  --light-gray: #747474;
+}
+
+body {
+  color: var(--light-gray);
+}
+
+.blue-gradient {
+  background: linear-gradient(to top right, var(--navy-blue), var(--light-blue));
 }
 
 button {
@@ -24,4 +36,9 @@ button {
     color: rgb(58, 147, 225);
     border-color: rgb(58, 147, 225);
   }
+}
+
+.nav-links li:hover {
+  color: peachpuff;
+  cursor: pointer;
 }

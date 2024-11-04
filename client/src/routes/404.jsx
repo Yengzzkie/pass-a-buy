@@ -17,6 +17,9 @@ function NotFound() {
       >
         Go Back to Homepage
       </button>
+
+      <div className="flex flex-col gap-4">
+    </div>
     </div>
   );
 }

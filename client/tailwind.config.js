@@ -1,7 +1,8 @@
 /** @type {import('tailwindcss').Config} */
-const flowbite = require("flowbite-react/tailwind");
+import flowbite from "flowbite-react/tailwind";
+import withMT from "@material-tailwind/react/utils/withMT"
 
-export default {
+export default withMT({
   content: [
     "./index.html",
     "./src/**/*.{html,jsx,js}",
@@ -14,9 +15,12 @@ export default {
         '-1/2': '-50%',
       },
     },
+    screens: {
+      "full": '100%'
+    },
   },
   plugins: [
     flowbite.plugin(),
   ],
-}
+})
 

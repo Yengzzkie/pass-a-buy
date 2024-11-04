@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUserAuth, useUserData } from "../stores/useDataStore";
+import { Button } from "@material-tailwind/react";
 import axios from "axios";
 
 export default function Dashboard() {
@@ -40,8 +41,7 @@ export default function Dashboard() {
   }, []);
 
   return (
-    <div>
-      <h1 className="text-center">Home Page</h1>
+    <div className="text-[#2E2E2E] px-6 py-4">
       {loading ? (
         <h1 className="text-white">Loading...</h1>
       ) : (
@@ -52,6 +52,9 @@ export default function Dashboard() {
           <p>Mobile: {userData.contact}</p>
 
           <h2 className="text-3xl mt-8 mb-4">Posts</h2>
+          <a href="#buttons-with-link">
+        <Button onClick={() => navigate("/posts/create")} variant="gradient">Create Post</Button>
+      </a>
           <table className="text-[#747474] table-auto w-full border-collapse border border-gray-300">
             <thead>
               <tr className="bg-gray-100">

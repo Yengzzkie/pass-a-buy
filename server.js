@@ -6,8 +6,8 @@ const PORT = process.env.PORT || 8000;
 require("dotenv").config();
 
 const corsOptions = {
-  origin: 'http://localhost:5173', // Replace with your frontend URL
-  credentials: true, // Allow credentials to be included
+  origin: 'http://localhost:5173', // Replace with frontend URL in productions
+  credentials: true,
 };
 
 // CORS

@@ -24,7 +24,9 @@ function PostFeed() {
       const response = await axios.get(`http://localhost:8080/posts`, {
         withCredentials: true,
       });
-      setPostData(response.data.reverse());
+      // sort posts from newest to oldest
+      const sortedPost = response.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      setPostData(sortedPost);
       setInitialPostData(response.data);
       setAuth(authenticated.isAuthenticated); 
     } catch (error) {
@@ -121,11 +123,15 @@ function PostFeed() {
                   </div>
                   {/* Post Details */}
                   <div className="text-gray-700 mb-4">
-                    <p><span className="font-semibold">From:</span> {post.fromLocation}</p>
-                    <p><span className="font-semibold">To:</span> {post.toLocation}</p>
-                    <p><span className="font-semibold">Travel Date:</span> {new Date(post.travelDate).toLocaleDateString()}</p>
-                    <p><span className="font-semibold">Return Date:</span> {new Date(post.returnDate).toLocaleDateString()}</p>
+                    <h1 className="bold text-2xl mb-4">{post.title}</h1>
+                    <p><span className="font-semibold">From:</span> {post.origin}</p>
+                    <p><span className="font-semibold">To:</span> {post.destination}</p>
+                    <p><span className="font-semibold">Origin Departure Date:</span> {new Date(post.origin_departure).toLocaleDateString()}</p>
+                    <p><span className="font-semibold">Origin Arrival Date:</span> {new Date(post.origin_arrival).toLocaleDateString()}</p>
+                    <p><span className="font-semibold">Destination Departure Date:</span> {new Date(post.destination_departure).toLocaleDateString()}</p>
+                    <p><span className="font-semibold">Destination Arrival Date:</span> {new Date(post.destination_arrival).toLocaleDateString()}</p>
                     <p><span className="font-semibold">Item Type:</span> {post.itemType}</p>
+                    <p><span className="font-semibold">Restricted Items:</span> {post.restrictions}</p>
                     <p><span className="font-semibold">Capacity:</span> {post.capacity} kg</p>
                     <p><span className="font-semibold">Fee:</span> ${post.fee}</p>
                   </div>

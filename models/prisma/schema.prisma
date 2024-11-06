@@ -41,23 +41,28 @@ model User {
 }
 
 model Post {
-  id                String        @id @default(uuid())
-  title             String
-  fromLocation      String // Departure location
-  toLocation        String // Destination location
-  travelDate        DateTime // Date of travel
-  returnDate        DateTime // return date
-  capacity          Float // Capacity in kg or number of items
-  itemType          String // Types of items accepted (e.g., electronics, clothes)
-  fee               Float // Fee the traveller charges per item or weight
-  additionalDetails String? // Additional notes (e.g., fragile items only)
-  createdAt         DateTime      @default(now())
-  updatedAt         DateTime      @updatedAt
-  status            PostStatus    @default(ACTIVE) // Status of the post
-  userId            String
+  id                          String        @id @default(uuid())
+  title                       String
+  origin                      String // Departure location
+  destination                 String // Destination location
+  origin_departure            DateTime // Date of travel from origin country
+  origin_arrival              DateTime // return date to origin country
+  destination_departure       DateTime? // Optional destination departure, as some travellers (visitor VISA holders) might no longer be coming back to origin country
+  destination_arrival         DateTime // arrival to destination country
+  origin_pickup_location      String? // pickup location in the origin country
+  destination_pickup_location String? // pickup location in the destination country
+  restrictions                String?
+  capacity                    Float // Capacity in kg or number of items
+  itemType                    String // Types of items accepted (e.g., electronics, clothes)
+  fee                         Float // Fee the traveller charges per item or weight
+  additionalDetails           String? // Additional notes (e.g., fragile items only)
+  createdAt                   DateTime      @default(now())
+  updatedAt                   DateTime      @updatedAt
+  status                      PostStatus    @default(ACTIVE) // Status of the post
+  userId                      String
   // Relations
-  user              User          @relation(fields: [userId], references: [id]) // Relation to the user creating the post
-  transactions      Transaction[] // Transactions associated with the post
+  user                        User          @relation(fields: [userId], references: [id]) // Relation to the user creating the post
+  transactions                Transaction[] // Transactions associated with the post
 }
 
 enum PostStatus {

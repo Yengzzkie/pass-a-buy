@@ -11,8 +11,11 @@ import Users from "./routes/Users";
 import NotFound from "./routes/404";
 import Home from "./routes/Home";
 import PrivateRoute from "./routes/PrivateRoute";
-import CreatePost from "./routes/CreatePost";
 import UserProfile from "./routes/UserProfile";
+import PostForm from "./components/PostForm";
+import DashboardContent from "./components/DashboardContent";
+import EditProfile from "./routes/EditProfile";
+import MyPosts from "./routes/MyPosts";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +33,40 @@ const router = createBrowserRouter([
             <Dashboard />
           </PrivateRoute>
         ),
+        children: [
+          {
+            path: "/dashboard",
+            element: (
+              <PrivateRoute>
+                <DashboardContent />
+              </PrivateRoute>
+            ),
+          },
+          {
+            path: "/dashboard/create",
+            element: (
+              <PrivateRoute>
+                <PostForm />
+              </PrivateRoute>
+            ),
+          },
+          {
+            path: "dashboard/myposts",
+            element: (
+              <PrivateRoute>
+                <MyPosts />
+              </PrivateRoute>
+            ),
+          },
+          {
+            path: "dashboard/edit",
+            element: (
+              <PrivateRoute>
+                <EditProfile />
+              </PrivateRoute>
+            ),
+          },
+        ],
       },
       {
         path: "/users",
@@ -51,7 +88,7 @@ const router = createBrowserRouter([
         path: "/posts/create",
         element: (
           <PrivateRoute>
-            <CreatePost />
+            <PostForm />
           </PrivateRoute>
         ),
       },
@@ -72,8 +109,3 @@ createRoot(document.getElementById("root")).render(
     <RouterProvider router={router} />
   </StrictMode>
 );
-
-// (
-//   <PrivateRoute>
-//   </PrivateRoute>
-// )

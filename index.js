@@ -6,18 +6,23 @@ const { findUserByEmailQueryForAuthentication } = require("./services/userQuerie
 // THIS FILE IS FOR TESTING DATABASE QUERIES!!!
 
 async function main() {
-  const user = await findUserByEmailQueryForAuthentication("mang.jose@yahoo.com")
-  console.log(user);
-  // const users = await prisma.user.findMany();
-  // for (const user of users) {
-  //   if (user.location) {
-  //     const [city, country] = user.location.split(',').map(str => str.trim());
-  //     await prisma.user.update({
-  //       where: { id: user.id },
-  //       data: { city, country },
-  //     });
-  //   }
-  // }
+  // Step 1: Retrieve all posts
+  const posts = await prisma.post.findMany();
+
+  // Step 2: Iterate and update each post individually
+  for (const post of posts) {
+    await prisma.post.update({
+      where: { id: post.id },
+      data: {
+        origin: post.fromLocation,
+        destination: post.toLocation,
+        origin_departure: post.travelDate,
+        origin_arrival: post.returnDate,
+        destination_departure: new Date("2024-11-05T16:27:35.853Z"),
+        destination_arrival: new Date("2024-11-05T16:27:35.853Z"),
+      },
+    });
+  }
 }
 
 main()

@@ -3,7 +3,7 @@ const router = express.Router();
 const { getAllUsers, getUser, getUserById, createUser, findUserByName, findUserByEmail, findUserByContact, changeUserPassword } = require('../controllers/userController');
 const { verifyToken } = require('../middleware/verifyToken');
 
-// Get all users / Create new user
+// Get all users
 router.route("/").get(verifyToken, getAllUsers);
 
 // Register user

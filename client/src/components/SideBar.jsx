@@ -11,7 +11,7 @@ export default function Sidebar() {
   const {firstName, lastName} = userData;
 
   return (
-    <div className="w-64 bg-[#083542] text-white flex flex-col">
+    <div className="min-w-64 w-64 bg-[#083542] text-white flex flex-col">
       <img src={`https://ui-avatars.com/api/?name=${firstName}${lastName}&background=random`} alt="avatar" className="w-4/12 rounded-full mx-auto my-4" />
       <h2 className="text-2xl font-bold py-4 px-6 border-b border-gray-700 text-center">
         Dashboard

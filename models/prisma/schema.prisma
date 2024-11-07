@@ -38,6 +38,12 @@ model User {
   isVerified              Boolean       @default(false)
   emailVerified           Boolean       @default(false)
   paymentVerified         Boolean       @default(false)
+  role                    userRole      @default(USER)
+}
+
+enum userRole {
+  USER
+  ADMIN
 }
 
 model Post {

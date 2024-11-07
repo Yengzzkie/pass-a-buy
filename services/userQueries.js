@@ -134,6 +134,7 @@ async function findUserByNameQuery(name) {
   }
 }
 
+// EDIT
 async function findUserByEmailQueryForAuthentication(email) {
   try {
     return await prisma.user.findUnique({
@@ -145,7 +146,9 @@ async function findUserByEmailQueryForAuthentication(email) {
         firstName: true,
         lastName: true,
         email: true,
+        emailVerified: true,
         password: true,
+        role: true,
       },
     });
   } catch (error) {

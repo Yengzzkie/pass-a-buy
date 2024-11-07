@@ -13,12 +13,12 @@ async function authenticateUser(req, res) {
       return res.status(400).json({ message: 'Another user is logged in, please logout first then log back in.' })
     }
 
-    // check if user exists in the database
+    // check if user exists in the database, (Edit the returned object from this query
+    // if want to add new properties in the response object)
     const user = await db.findUserByEmailQueryForAuthentication(email);
     if (!user) {
       return res.status(404).json({ message: "User does not exist" });
     }
-
     // check if password matches from database
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
@@ -27,7 +27,7 @@ async function authenticateUser(req, res) {
 
     // generate token if the user is authenticated
     const token = jwt.sign(
-      { id: user.id, email: user.email },
+      { id: user.id, email: user.email, isEmailVerified: user.emailVerified, role: user.role, },
       process.env.JWT_SECRET,
       { expiresIn: "24h" }
     );
@@ -45,8 +45,8 @@ async function authenticateUser(req, res) {
       id: user.id,
       email: user.email,
       name: `${user.firstName} ${user.lastName}`,
-      status: true,
-      token,
+      isEmailVerified: user.emailVerified,
+      role: user.role,
     });
   } catch (error) {
     console.error(error);

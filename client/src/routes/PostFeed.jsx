@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { usePostData, useUserAuth } from "../stores/useDataStore";
+import { usePostData, useUserAuth, useModal } from "../stores/useDataStore";
+import { DialogDefault } from "../components/PostModal";
 
 function PostFeed() {
+  const { isModal, setIsModal } = useModal();
   const { postData, setPostData } = usePostData();
   const { auth, setAuth } = useUserAuth();
   const [initialPostData, setInitialPostData] = useState([]);
@@ -24,15 +26,17 @@ function PostFeed() {
       const response = await axios.get(`http://localhost:8080/posts`, {
         withCredentials: true,
       });
+
       // sort posts from newest to oldest
       const sortedPost = response.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
       setPostData(sortedPost);
       setInitialPostData(response.data);
       setAuth(authenticated.isAuthenticated); 
     } catch (error) {
-      const errorMessage = error.response
-        ? error.response.data.message
-        : error.message;
+      const errorMessage = error.response;
+      if (errorMessage.status === 403) {
+        setIsModal(isModal); // This will open the modal automatically
+      }
       console.error("Error fetching posts:", errorMessage);
     } finally {
       setLoading(false);
@@ -64,6 +68,7 @@ function PostFeed() {
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
+      <DialogDefault />
       {loading ? (<p>Loading...</p>) : (
         <div>
           <h1 className="text-2xl font-semibold text-gray-700 mb-6">Post Feed</h1>

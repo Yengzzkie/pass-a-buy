@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "@material-tailwind/react";
-// import { Input } from "@material-tailwind/react";
+import { DialogDefault } from "../components/PostModal";
 import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 
 export default function PostForm() {
@@ -39,6 +39,7 @@ export default function PostForm() {
       onSubmit={handleSubmit}
       className="max-w-screen-md mx-auto p-10 bg-white rounded-lg shadow-md"
     >
+      <DialogDefault />
       <div className="flex flex-col items-center mb-4 gap-2">
         <h2 className="inline text-2xl font-semibold">Create New Post</h2>
         <EditCalendarIcon />

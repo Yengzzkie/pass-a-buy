@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUserAuth, useUserData } from "../stores/useDataStore";
+import DashboardCard from "../components/DashboardCard";
 import axios from "axios";
 
 export default function DashboardContent() {
@@ -58,117 +59,16 @@ export default function DashboardContent() {
             </p>
             <p>Mobile: {userData.contact}</p>
 
-            <h2 className="text-3xl mt-8 mb-4">Posts</h2>
-            <table className="text-[#747474] table-auto w-full border-collapse border border-gray-300 mt-4">
-              <thead>
-                <tr className="bg-gray-100">
-                  <th className="border border-gray-300 p-2">
-                    Travelling From
-                  </th>
-                  <th className="border border-gray-300 p-2">Travelling To</th>
-                </tr>
-              </thead>
-              <tbody>
-                {userData?.posts?.map((post) => (
-                  <tr key={post.id}>
-                    <td className="border border-gray-300 p-2">
-                      {post.fromLocation}
-                    </td>
-                    <td className="border border-gray-300 p-2">
-                      {post.toLocation}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            <table className="text-[#747474] table-auto w-full border-collapse border border-gray-300 mt-4">
-              <thead>
-                <tr className="bg-gray-100">
-                  <th className="border border-gray-300 p-2">
-                    Travelling From
-                  </th>
-                  <th className="border border-gray-300 p-2">Travelling To</th>
-                </tr>
-              </thead>
-              <tbody>
-                {userData?.posts?.map((post) => (
-                  <tr key={post.id}>
-                    <td className="border border-gray-300 p-2">
-                      {post.fromLocation}
-                    </td>
-                    <td className="border border-gray-300 p-2">
-                      {post.toLocation}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            <table className="text-[#747474] table-auto w-full border-collapse border border-gray-300 mt-4">
-              <thead>
-                <tr className="bg-gray-100">
-                  <th className="border border-gray-300 p-2">
-                    Travelling From
-                  </th>
-                  <th className="border border-gray-300 p-2">Travelling To</th>
-                </tr>
-              </thead>
-              <tbody>
-                {userData?.posts?.map((post) => (
-                  <tr key={post.id}>
-                    <td className="border border-gray-300 p-2">
-                      {post.fromLocation}
-                    </td>
-                    <td className="border border-gray-300 p-2">
-                      {post.toLocation}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            <table className="text-[#747474] table-auto w-full border-collapse border border-gray-300 mt-4">
-              <thead>
-                <tr className="bg-gray-100">
-                  <th className="border border-gray-300 p-2">
-                    Travelling From
-                  </th>
-                  <th className="border border-gray-300 p-2">Travelling To</th>
-                </tr>
-              </thead>
-              <tbody>
-                {userData?.posts?.map((post) => (
-                  <tr key={post.id}>
-                    <td className="border border-gray-300 p-2">
-                      {post.fromLocation}
-                    </td>
-                    <td className="border border-gray-300 p-2">
-                      {post.toLocation}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            <table className="text-[#747474] table-auto w-full border-collapse border border-gray-300 mt-4">
-              <thead>
-                <tr className="bg-gray-100">
-                  <th className="border border-gray-300 p-2">
-                    Travelling From
-                  </th>
-                  <th className="border border-gray-300 p-2">Travelling To</th>
-                </tr>
-              </thead>
-              <tbody>
-                {userData?.posts?.map((post) => (
-                  <tr key={post.id}>
-                    <td className="border border-gray-300 p-2">
-                      {post.fromLocation}
-                    </td>
-                    <td className="border border-gray-300 p-2">
-                      {post.toLocation}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <div className="flex justify-evenly items-center">
+              <DashboardCard className="bg-[#ccc]" >Test </DashboardCard >
+              <DashboardCard />
+              <DashboardCard />
+            </div>
+            <div className="flex justify-evenly items-center">
+              <DashboardCard />
+              <DashboardCard />
+              <DashboardCard />
+            </div>
           </div>
         )}
       </div>

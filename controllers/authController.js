@@ -29,7 +29,7 @@ async function authenticateUser(req, res) {
     const token = jwt.sign(
       { id: user.id, email: user.email },
       process.env.JWT_SECRET,
-      { expiresIn: "1d" }
+      { expiresIn: "24h" }
     );
 
     // store the signed token to cookies
@@ -63,7 +63,7 @@ async function logoutUser(req, res) {
 
     res.clearCookie('authToken', {
       httpOnly: true,
-      secure: false,
+      secure: false, // set to true in production
       sameSite: 'strict',
     });
 

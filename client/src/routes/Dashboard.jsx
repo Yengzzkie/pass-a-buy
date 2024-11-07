@@ -4,6 +4,7 @@ import { useUserAuth, useUserData } from "../stores/useDataStore";
 import { Outlet } from "react-router-dom";
 import axios from "axios";
 import Sidebar from "../components/SideBar";
+import LoadingProfile from "../components/LoadingProfile";
 
 export default function Dashboard() {
   const { setUserData } = useUserData();
@@ -50,7 +51,7 @@ export default function Dashboard() {
 
       {/* Main content */}
       <div className="flex-grow p-6 overflow-y-auto h-screen">
-        {loading ? <h1 className="text-white">Loading...</h1> : <Outlet />}
+        {loading ? <LoadingProfile /> : <Outlet />}
       </div>
     </div>
   );

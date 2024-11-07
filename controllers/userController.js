@@ -1,5 +1,7 @@
 const db = require("../services/userQueries");
 const bcrypt = require('bcrypt');
+const { sendMail } = require('../controllers/sendEmailController');
+const { generateVerificationToken } = require('../middleware/generateToken');
 
 // @desc: Get all users
 // @access: Admin privilege
@@ -131,6 +133,16 @@ async function createUser(req, res) {
     const hashedPassword = await bcrypt.hash(password, 10)
 
     const newUser = await db.createUserQuery(req.body, hashedPassword);
+
+    const token = await generateVerificationToken(newUser.id, newUser.email);
+    console.log(token)
+    const verificationUrl = `http://localhost:3000/verify-email?token=${token}`;
+
+    if (newUser) {
+      sendMail(req.body, verificationUrl);
+      console.log("verification email sent")
+    }
+
     res.status(201).json(newUser);
   } catch (error) {
     console.error("Error creating user:", error.message);

@@ -31,6 +31,9 @@ app.use("/login", require("./routes/loginRoute"));
 // Logout route
 app.use("/logout", require("./routes/logoutRoute"))
 
+// Send email route (inbound)
+app.use("/support", require("./routes/sendEmailRoute"));
+
 // User route
 app.use("/users", require("./routes/userRoute"));
 

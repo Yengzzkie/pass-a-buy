@@ -37,7 +37,7 @@ export default function RegisterForm() {
     try {
       const registerData = await axios.post("http://localhost:8080/users/register", formData);
       console.log("Successfully registered user:", registerData);
-      notifySuccess("Registration successful!");
+      notifySuccess("Registration successful! Check your email for verification link");
       navigate("/login")
     } catch (error) {
       setError(error?.response?.data?.message);

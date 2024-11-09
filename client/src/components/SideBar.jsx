@@ -39,7 +39,7 @@ export default function Sidebar() {
           <span>Create Post</span>
         </NavLink>
         <NavLink
-          to="dashboard/edit"
+          to={`dashboard/edit/${userData.id}`}
           className="flex items-center space-x-2 p-2 hover:bg-gray-700 rounded"
         >
           <EditNoteIcon />

@@ -8,7 +8,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 // this is an outbound email, when a user registers
-async function sendMail(userData, verificationUrl) {
+async function sendVerificationMail(userData, verificationUrl) {
   const { firstName, lastName, email } = userData;
 
   try {
@@ -39,7 +39,7 @@ async function sendMail(userData, verificationUrl) {
       console.log("Failed sending verification email");
     }
 
-    console.log("Support email sent:", result);
+    console.log("Verification email sent");
   } catch (error) {
     console.error("Error sending support email:", error);
   }
@@ -71,4 +71,4 @@ async function sendMail(userData, verificationUrl) {
 //   }
 // }
 
-module.exports = { sendMail };
+module.exports = { sendVerificationMail };

@@ -59,7 +59,7 @@ const router = createBrowserRouter([
             ),
           },
           {
-            path: "dashboard/edit",
+            path: "dashboard/edit/:id",
             element: (
               <PrivateRoute>
                 <EditProfile />

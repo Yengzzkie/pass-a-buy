@@ -40,6 +40,9 @@ app.use("/users", require("./routes/userRoute"));
 // Posts route
 app.use("/posts", require("./routes/postRoute"));
 
+// Verify email route
+app.use("/verify-email", require("./routes/emailVerificationRoute"));
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

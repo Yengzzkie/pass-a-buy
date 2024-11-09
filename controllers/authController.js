@@ -73,4 +73,21 @@ async function logoutUser(req, res) {
   }
 }
 
-module.exports = { authenticateUser, logoutUser };
+// Verify user's email
+async function verifyEmail(req, res) {
+  const token = req.query.token;
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+    
+    if (err) {
+      return res.status(403).json({ message: "Invalid or expired token" });
+    }
+
+    req.user = user;
+  })
+
+  await db.verifyEmailQuery(req.user);
+  res.json({ message: "Email successfully verified" })
+}
+
+module.exports = { authenticateUser, logoutUser, verifyEmail };

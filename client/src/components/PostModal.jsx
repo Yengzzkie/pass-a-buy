@@ -8,19 +8,16 @@ import {
 import { useModal } from "../stores/useDataStore";
 import { useNavigate } from "react-router-dom";
 
-export function DialogDefault() {
-  const navigate = useNavigate();
+export function DialogDefault({ title, message, onClose, onVerify, cancel, confirm }) {
   const { isModal, setIsModal } = useModal();
   const handleOpen = () => setIsModal(isModal);
 
   return (
     <>
       <Dialog open={isModal} handler={handleOpen} size="xs">
-        <DialogHeader>Limited access</DialogHeader>
+        <DialogHeader>{title}</DialogHeader>
         <DialogBody>
-          To access this content, please verify your email.
-          To verify, go to <span className="font-semibold">Dashboard</span> &gt; <span className="font-semibold">Edit Profile</span> then click
-          on <span className="font-semibold underline">Verify email</span>.
+          {message}
         </DialogBody>
         <DialogFooter>
           <Button
@@ -28,21 +25,21 @@ export function DialogDefault() {
             color="red"
             onClick={() => {
               handleOpen()
-              navigate("/dashboard")
+              if (onClose) onClose();
             }}
             className="mr-1"
           >
-            <span>Close</span>
+            <span>{cancel}</span>
           </Button>
           <Button
             variant="gradient"
             color="green"
             onClick={() => {
               handleOpen()
-              navigate("/dashboard/dashboard/edit")
+              if (onVerify) onVerify();
             }}
           >
-            <span>Verify now</span>
+            <span>{confirm}</span>
           </Button>
         </DialogFooter>
       </Dialog>

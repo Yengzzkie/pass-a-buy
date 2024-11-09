@@ -252,6 +252,26 @@ async function changeUserPasswordQuery(userId, password) {
   }
 }
 
+// @desc: Verify user's email. From false to true
+// @access: Private
+async function verifyEmailQuery(userData) {
+  const { id } = userData;
+  
+  try {
+    return await prisma.user.update({
+      where: {
+        id: id,
+      },
+      data: {
+        emailVerified: true
+      }
+    })
+  } catch (error) {
+    console.error("Password change failed", error.message);
+    throw error;
+  }
+}
+
 // @desc: Create new user
 // @access: Public
 async function createUserQuery(userInfo, password) {
@@ -275,6 +295,20 @@ async function createUserQuery(userInfo, password) {
   }
 }
 
+// Delete user's account
+// Private
+async function deleteUserQuery(id) {
+  try {
+    return await prisma.user.delete({
+      where: {
+        id: id
+      }
+    })
+  } catch (error) {
+    
+  }
+}
+
 module.exports = {
   getAllUserQuery,
   getUserQuery,
@@ -284,5 +318,7 @@ module.exports = {
   findUserByEmailQuery,
   findUserByContactQuery,
   changeUserPasswordQuery,
-  findUserByEmailQueryForAuthentication
+  verifyEmailQuery,
+  findUserByEmailQueryForAuthentication,
+  deleteUserQuery
 }; 

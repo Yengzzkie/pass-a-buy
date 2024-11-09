@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getAllUsers, getUser, getUserById, createUser, findUserByName, findUserByEmail, findUserByContact, changeUserPassword } = require('../controllers/userController');
+const { getAllUsers, getUser, getUserById, createUser, findUserByName, findUserByEmail, findUserByContact, changeUserPassword, deleteUser } = require('../controllers/userController');
 const { verifyToken } = require('../middleware/verifyToken');
 
 // Get all users
@@ -17,6 +17,9 @@ router.route("/search/email").get(verifyToken, findUserByEmail);
 
 // Search user by number
 router.route("/search/contact").get(verifyToken, findUserByContact);
+
+// Delete user's account
+router.route("/delete/:id").post(deleteUser)
 
 // Get user by ID
 router.route("/search/:userId").get(verifyToken, getUserById);

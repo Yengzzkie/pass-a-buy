@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+// import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useUserAuth } from "../stores/useDataStore";
+import { useLogout } from "../utils/useLogout";
 import {
   Navbar,
   Collapse,
@@ -14,6 +15,7 @@ export default function NavbarDefault() {
   const [openNav, setOpenNav] = useState(false);
   const navigate = useNavigate();
   const { auth, setAuth } = useUserAuth();
+  const { handleLogout } = useLogout();
 
   useEffect(() => {
     const storedLoginStatus = JSON.parse(localStorage.getItem("auth"));
@@ -25,27 +27,6 @@ export default function NavbarDefault() {
 
     setAuth(storedLoginStatus);
   }, [setAuth]);
-
-  async function handleLogout() {
-    try {
-      const response = await axios.post(
-        "http://localhost:8080/logout",
-        {},
-        { withCredentials: true }
-      );
-
-      if (response.status === 200) {
-        setAuth(false);
-        localStorage.removeItem("userID");
-        localStorage.removeItem("auth");
-        navigate("/login");
-      } else {
-        console.log("Logout unsuccessful:", response.data);
-      }
-    } catch (error) {
-      console.error("Error during logout:", error);
-    }
-  }
 
   useEffect(() => {
     window.addEventListener(

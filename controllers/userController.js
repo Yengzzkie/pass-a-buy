@@ -1,7 +1,7 @@
 const db = require("../services/userQueries");
 const bcrypt = require('bcrypt');
-const { sendMail } = require('../controllers/sendEmailController');
-const { generateVerificationToken } = require('../middleware/generateToken');
+const { sendVerificationMail } = require('../controllers/sendEmailController');
+const { generateVerificationToken } = require('../middleware/generateVerificationToken');
 
 // @desc: Get all users
 // @access: Admin privilege
@@ -136,10 +136,10 @@ async function createUser(req, res) {
 
     const token = await generateVerificationToken(newUser.id, newUser.email);
     console.log(token)
-    const verificationUrl = `http://localhost:3000/verify-email?token=${token}`;
+    const verificationUrl = `http://localhost:8080/verify-email?token=${token}`;
 
     if (newUser) {
-      sendMail(req.body, verificationUrl);
+      sendVerificationMail(req.body, verificationUrl);
       console.log("verification email sent")
     }
 
@@ -150,8 +150,15 @@ async function createUser(req, res) {
   }
 }
 
-async function deleteUsernames(req, res) {
-  await db.deleteAllUsernames();
+// Delete user's account
+// Private
+async function deleteUser(req, res) {
+  try {
+    return await db.deleteUserQuery(req.params.id);
+  } catch (error) {
+    console.error("Failed deleting user:", error.message);
+    res.status(500).json({ message: "Failed deleting user" });
+  }
 }
 
 module.exports = {
@@ -163,5 +170,5 @@ module.exports = {
   findUserByContact,
   createUser,
   changeUserPassword,
-  deleteUsernames,
+  deleteUser,
 };

@@ -27,7 +27,6 @@ export default function DashboardContent() {
         .then((data) => {
           setAuth(authenticated.isAuthenticated);
           setUserData(data.data);
-          console.log(data.data)
         });
     } catch (error) {
       const errorMessage = error.response

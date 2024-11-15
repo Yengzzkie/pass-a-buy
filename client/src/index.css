@@ -11,10 +11,11 @@
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   color: rgba(235, 235, 235, 0.87);
-  background-color: #F9FAFB;
+  background-color: #f9fafb;
+  --primary-bg: #5202e7;
   --navy-blue: #0e7490;
   --light-blue: #1693b6;
-  --dark-gray: #2E2E2E;
+  --dark-gray: #2e2e2e;
   --light-gray: #747474;
 }
 
@@ -23,14 +24,18 @@ body {
 }
 
 .blue-gradient {
-  background: linear-gradient(to top right, var(--navy-blue), var(--light-blue));
+  background: linear-gradient(
+    to top right,
+    var(--navy-blue),
+    var(--light-blue)
+  );
 }
 
 button {
-  border: .5px solid #fff;
-  border-radius: .3rem;
-  margin: .5rem;
-  padding: .2rem .4rem;
+  border: 0.5px solid #fff;
+  border-radius: 0.3rem;
+  margin: 0.5rem;
+  padding: 0.2rem 0.4rem;
 
   &:hover {
     color: rgb(58, 147, 225);
@@ -44,5 +49,6 @@ button {
 }
 
 .registration-form label {
- color: var(--light-gray)
+  color: var(--light-gray);
 }
+

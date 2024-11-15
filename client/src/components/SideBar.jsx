@@ -11,36 +11,36 @@ export default function Sidebar() {
   const {firstName, lastName} = userData;
 
   return (
-    <div className="min-w-64 w-64 bg-[#083542] text-white flex flex-col">
+    <div className="sidebar min-w-64 w-64 bg-purple-800 text-white flex flex-col">
       <img src={`https://ui-avatars.com/api/?name=${firstName}${lastName}&background=random`} alt="avatar" className="w-4/12 rounded-full mx-auto my-4" />
-      <h2 className="text-2xl font-bold py-4 px-6 border-b border-gray-700 text-center">
-        Dashboard
-      </h2>
+      <p className="text-xl font-bold py-4 px-6 border-b border-purple-700 text-center">
+        Hi {firstName} {lastName}
+      </p>
       <nav className="flex-1 p-4 space-y-4">
         <NavLink
           to="/dashboard"
-          className="flex items-center space-x-2 p-2 hover:bg-gray-700 rounded"
+          className="flex items-center space-x-2 p-2 hover:bg-purple-600 rounded"
         >
           <DashboardIcon />
           <span>Dashboard Home</span>
         </NavLink>
         <NavLink
           to="dashboard/myposts"
-          className="flex items-center space-x-2 p-2 hover:bg-gray-700 rounded"
+          className="flex items-center space-x-2 p-2 hover:bg-purple-600 rounded"
         >
           <BarChartIcon />
           <span>My Posts</span>
         </NavLink>
         <NavLink
           to="/dashboard/create"
-          className="flex items-center space-x-2 p-2 hover:bg-gray-700 rounded"
+          className="flex items-center space-x-2 p-2 hover:bg-purple-600 rounded"
         >
           <CreateIcon />
           <span>Create Post</span>
         </NavLink>
         <NavLink
           to={`dashboard/edit/${userData.id}`}
-          className="flex items-center space-x-2 p-2 hover:bg-gray-700 rounded"
+          className="flex items-center space-x-2 p-2 hover:bg-purple-600 rounded"
         >
           <EditNoteIcon />
           <span>Edit Profile</span>

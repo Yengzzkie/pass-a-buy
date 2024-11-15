@@ -8,8 +8,10 @@ const transporter = nodemailer.createTransport({
   },
 });
 // this is an outbound email, when a user registers
-async function sendVerificationMail(userData, verificationUrl) {
+async function sendVerificationMail(userData, token) {
   const { firstName, lastName, email } = userData;
+
+  const verificationUrl = `http://localhost:5173/verify-email/${token}`; 
 
   try {
     const mailOptions = {

@@ -19,7 +19,7 @@ router.route("/search/email").get(verifyToken, findUserByEmail);
 router.route("/search/contact").get(verifyToken, findUserByContact);
 
 // Delete user's account
-router.route("/delete/:id").post(deleteUser)
+router.route("/delete/:id").delete(deleteUser)
 
 // Get user by ID
 router.route("/search/:userId").get(verifyToken, getUserById);

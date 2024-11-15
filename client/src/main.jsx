@@ -16,6 +16,7 @@ import PostForm from "./components/PostForm";
 import DashboardContent from "./components/DashboardContent";
 import EditProfile from "./routes/EditProfile";
 import MyPosts from "./routes/MyPosts";
+import VerifyEmail from "./routes/VerifiyEmail";
 
 const router = createBrowserRouter([
   {
@@ -98,6 +99,12 @@ const router = createBrowserRouter([
           <PrivateRoute>
             <UserProfile />
           </PrivateRoute>
+        ),
+      },
+      {
+        path: "/verify-email/:token",
+        element: (
+          <VerifyEmail />
         ),
       },
     ],

@@ -5,7 +5,7 @@ function MyPosts() {
 
   return (
     <div>
-      {userData.posts.length === 0 ? (<p>You have no posts yet.</p>) : (
+      {!userData.posts || userData.posts.length === 0 ? (<p>You have no posts yet.</p>) : (
         userData.posts.map((post) => (
           <div key={post.id} className="bg-white shadow-lg rounded-lg p-4 mb-6">
             {/* Header: Poster Info */}

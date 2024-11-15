@@ -137,7 +137,7 @@ export default function NavbarDefault() {
   );
 
   return (
-    <Navbar className="bg-[var(--navy-blue)] border-none rounded-none px-4 py-2 lg:px-4 lg:py-4 w-full max-w-screen-full">
+    <Navbar className="bg-[var(--primary-bg)] border-none rounded-none px-4 py-2 lg:px-4 lg:py-4 w-full max-w-screen-full">
       <div className="container mx-auto flex items-center justify-between text-[#fff]">
         <Typography
           onClick={() => navigate("/")}

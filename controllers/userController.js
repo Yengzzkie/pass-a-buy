@@ -135,11 +135,9 @@ async function createUser(req, res) {
     const newUser = await db.createUserQuery(req.body, hashedPassword);
 
     const token = await generateVerificationToken(newUser.id, newUser.email);
-    console.log(token)
-    const verificationUrl = `http://localhost:8080/verify-email?token=${token}`;
 
     if (newUser) {
-      sendVerificationMail(req.body, verificationUrl);
+      sendVerificationMail(req.body, token);
       console.log("verification email sent")
     }
 

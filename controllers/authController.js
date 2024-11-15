@@ -1,6 +1,8 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const db = require("../services/userQueries");
+const { generateVerificationToken } = require("../middleware/generateVerificationToken");
+const { sendVerificationMail } = require("../controllers/sendEmailController");
 
 // Login controller, this module will check if a user exists in the database
 async function authenticateUser(req, res) {
@@ -8,9 +10,13 @@ async function authenticateUser(req, res) {
   const existingToken = req.cookies.authToken;
 
   try {
-
     if (existingToken) {
-      return res.status(400).json({ message: 'Another user is logged in, please logout first then log back in.' })
+      return res
+        .status(400)
+        .json({
+          message:
+            "Another user is logged in, please logout first then log back in.",
+        });
     }
 
     // check if user exists in the database, (Edit the returned object from this query
@@ -27,7 +33,12 @@ async function authenticateUser(req, res) {
 
     // generate token if the user is authenticated
     const token = jwt.sign(
-      { id: user.id, email: user.email, isEmailVerified: user.emailVerified, role: user.role, },
+      {
+        id: user.id,
+        email: user.email,
+        isEmailVerified: user.emailVerified,
+        role: user.role,
+      },
       process.env.JWT_SECRET,
       { expiresIn: "24h" }
     );
@@ -58,18 +69,18 @@ async function authenticateUser(req, res) {
 async function logoutUser(req, res) {
   try {
     if (!req.cookies.authToken) {
-      return res.json({ message: 'Already logged out. Please log back in.' })
+      return res.json({ message: "Already logged out. Please log back in." });
     }
 
-    res.clearCookie('authToken', {
+    res.clearCookie("authToken", {
       httpOnly: true,
       secure: false, // set to true in production
-      sameSite: 'strict',
+      sameSite: "strict",
     });
 
-    res.json({ message: 'Logged out successfully' })
+    res.json({ message: "Logged out successfully" });
   } catch (error) {
-    return res.json({ message: error.message});
+    return res.json({ message: error.message });
   }
 }
 
@@ -78,16 +89,35 @@ async function verifyEmail(req, res) {
   const token = req.query.token;
 
   jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-    
     if (err) {
       return res.status(403).json({ message: "Invalid or expired token" });
     }
 
     req.user = user;
-  })
-
+  });
+  // update the isEmailVerified to true in the database
   await db.verifyEmailQuery(req.user);
-  res.json({ message: "Email successfully verified" })
+  res.json({ message: "Email successfully verified" });
 }
 
-module.exports = { authenticateUser, logoutUser, verifyEmail };
+// Reverify user's email if user decide to verify it later on
+// when the verification link expires from registration
+async function reverifyEmail(req, res) {
+  try {
+    const id = req.params.id;
+    const user = await db.getUserByIdQuery(id);
+
+    if (!user) {
+      return res.json({ message: "Can't find user" });
+    }
+
+    const token = await generateVerificationToken(user.id, user.email);
+
+    sendVerificationMail(user, token);
+    console.log("verification email sent");
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+module.exports = { authenticateUser, logoutUser, verifyEmail, reverifyEmail };

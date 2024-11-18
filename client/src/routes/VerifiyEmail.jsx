@@ -18,7 +18,7 @@ function VerifyEmail() {
 
   useEffect(() => {
     verifyEmailToken();
-  }, [token]); // Add token as a dependency
+  }, [token]);
 
   return (
     <div>

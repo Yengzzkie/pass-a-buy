@@ -24,9 +24,9 @@ export default function EditProfile() {
   async function handleVerifyEmail() {
     setCountdown(30); 
     try {
-      // await axios.post(`http://localhost:8080/verify-email/${userData.id}`, {
-      //   withCredentials: true,
-      // });
+      await axios.post(`http://localhost:8080/verify-email/${userData.id}`, {
+        withCredentials: true,
+      });
       notifySuccess(`Verification email sent to ${userData.email}.`);
     } catch (error) {
       console.error(error);
@@ -75,8 +75,10 @@ export default function EditProfile() {
       <Button onClick={() => setIsModal(isModal)}>Delete Account</Button>
   
       {userData.emailVerified === true ? (
+        // if user is already verified, render this
         <span className="bg-[#c4febf] text-[#2E7D32] p-2.5 rounded-md border border-[#2E7D32]">Email Verified</span>
       ) : (
+        // if not, then render the verify email button
         <>
           <Button onClick={handleVerifyEmail} disabled={countdown > 0}>
             Verify Email

@@ -82,7 +82,7 @@ function PostFeed() {
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
-      <DialogDefault title={title} message={message} onClose={() => navigate("/dashboard")} onVerify={() => navigate(`/dashboard/dashboard/edit/${userID}`)} cancel={cancelBtn} confirm={confirmBtn} />
+      <DialogDefault title={title} message={message} onClose={() => navigate("/dashboard")} onVerify={() => navigate(`/dashboard/dashboard/edit/${userID.id}`)} cancel={cancelBtn} confirm={confirmBtn} />
       {loading ? (
         <p>Loading...</p>
       ) : (

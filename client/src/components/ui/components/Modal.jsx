@@ -1,5 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { FiAlertCircle } from "react-icons/fi";
+import { FiAlertCircle, FiAlertOctagon} from "react-icons/fi";
+
 
 const SpringModal = ({
   isOpen,
@@ -29,7 +30,7 @@ const SpringModal = ({
             <FiAlertCircle className="text-white/10 rotate-12 text-[250px] absolute z-0 -top-24 -left-24" />
             <div className="relative z-10">
               <div className="bg-white w-16 h-16 mb-2 rounded-full text-3xl text-indigo-600 grid place-items-center mx-auto">
-                <FiAlertCircle />
+                <FiAlertOctagon />
               </div>
               <h3 className="text-3xl font-bold text-center mb-2">{title}</h3>
               <p className="text-center mb-6">{message}</p>

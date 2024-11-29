@@ -1,18 +1,17 @@
-import { DialogDefault } from "../components/PostModal";
 import { useUserData } from "../stores/useDataStore";
-import { useModal } from "../stores/useDataStore";
 import { useLogout } from "../utils/useLogout";
 import { Button } from "@material-tailwind/react";
 import { useToast } from "../utils/useToast";
-import axios from "axios";
 import { useState, useEffect } from "react";
+import axios from "axios";
+import SpringModal from "../components/ui/components/Modal";
 
 export default function EditProfile() {
   const { userData } = useUserData();
-  const { isModal, setIsModal } = useModal();
   const { handleLogout } = useLogout();
   const { notifySuccess } = useToast();
   const [countdown, setCountdown] = useState(0); 
+  const [isOpen, setIsOpen] = useState(false);
 
   // will delete user's account
   async function handleDeleteUser() {
@@ -57,24 +56,27 @@ export default function EditProfile() {
       </span>
       .
       <p className="mt-4">
-        Click the <span className="font-semibold">Cancel</span> button if you
-        changed your mind, or click{" "}
-        <span className="font-semibold">Confirm</span> to proceed.
+        Are you sure you want to delete your account?
       </p>
+      <p><span className="font-semibold">Confirm</span> to proceed.</p>
     </>
   );
 
   return ( 
     <div>
-      <DialogDefault
-        title={title}
-        message={message}
-        onVerify={handleDeleteUser}
-        cancel={cancelBtn}
-        confirm={confirmBtn}
-      />
+      {isOpen && (
+        <SpringModal
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          onVerify={handleDeleteUser}
+          title={title}
+          cancelBtn={cancelBtn}
+          confirmBtn={confirmBtn}
+          message={message}
+        />
+      )}
       <input type="text" value={userData.firstName} /> <button>Save</button>
-      <Button onClick={() => setIsModal(isModal)}>Delete Account</Button>
+      <Button onClick={() => setIsOpen(!isOpen)}>Delete Account</Button>
   
       {userData.emailVerified === true ? (
         // if user is already verified, render this

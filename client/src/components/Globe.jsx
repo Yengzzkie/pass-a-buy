@@ -1,4 +1,4 @@
-import Globe from "../components/ui/components/ui/globe";
+import Globe from "./ui/components/globe";
 import { Button } from "flowbite-react";
 import { Link } from "react-router-dom";
 

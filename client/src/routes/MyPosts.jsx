@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useUserData, useUserPostsData } from "../stores/useDataStore";
-import SpringModal from "../components/ui/components/ui/Modal";
+import SpringModal from "../components/ui/components/Modal";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 

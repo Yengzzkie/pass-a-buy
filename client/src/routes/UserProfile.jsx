@@ -4,11 +4,12 @@ import axios from "axios";
 import { useState } from "react";
 
 export default function UserProfile() {
+  const API = import.meta.env.VITE_API_URL
   const { userId } = useParams();
   const [userData, setUserData] = useState({});
 
   async function fetchUserProfile() {
-    const user = await axios.get(`http://localhost:8080/users/search/${userId}`, { withCredentials: true });
+    const user = await axios.get(`${API}/users/search/${userId}`, { withCredentials: true });
     console.log(user.data)
     setUserData(user.data);
   }

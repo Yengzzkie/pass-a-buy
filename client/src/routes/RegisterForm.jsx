@@ -13,6 +13,7 @@ import { useToast } from "../utils/useToast";
 import axios from "axios";
 
 export default function RegisterForm() {
+  const API = import.meta.env.VITE_API_URL
   const { notifySuccess } = useToast();
   const navigate = useNavigate();
   const [error, setError] = useState(null);
@@ -35,7 +36,7 @@ export default function RegisterForm() {
     }
 
     try {
-      const registerData = await axios.post("http://localhost:8080/users/register", formData);
+      const registerData = await axios.post(`${API}/users/register`, formData);
       console.log("Successfully registered user:", registerData);
       notifySuccess("Registration successful! Check your email for verification link");
       navigate("/login")

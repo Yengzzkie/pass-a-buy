@@ -5,6 +5,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 
 function MyPosts() {
+  const API = import.meta.env.VITE_API_URL
   const { userData } = useUserData();
   const { posts, setPosts } = useUserPostsData();
   const [isOpen, setIsOpen] = useState(false);
@@ -17,7 +18,7 @@ function MyPosts() {
   async function fetchUserPosts() {
     try {
       setIsLoading(true);
-      const response = await axios.get(`http://localhost:8080/posts/user/${userId}`, { withCredentials: true });
+      const response = await axios.get(`${API}/posts/user/${userId}`, { withCredentials: true });
       setPosts(response.data);
     } catch (error) {
       console.error("Error fetching posts:", error);
@@ -40,7 +41,7 @@ function MyPosts() {
   async function handleDeletePost() {
     if (!selectedPostId) return;
     try {
-      await axios.delete(`http://localhost:8080/posts/${selectedPostId}`, { withCredentials: true });
+      await axios.delete(`${API}/posts/${selectedPostId}`, { withCredentials: true });
       fetchUserPosts();
       setIsOpen(false); 
     } catch (error) {

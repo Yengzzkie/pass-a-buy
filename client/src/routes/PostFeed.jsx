@@ -6,6 +6,7 @@ import { DialogDefault } from "../components/PostModal";
 import { Button } from "flowbite-react";
 
 function PostFeed() {
+  const API = import.meta.env.VITE_API_URL
   const { isModal, setIsModal } = useModal();
   const { postData, setPostData } = usePostData();
   const { auth, setAuth } = useUserAuth();
@@ -24,7 +25,7 @@ function PostFeed() {
         return;
       }
 
-      const response = await axios.get(`http://localhost:8080/posts`, {
+      const response = await axios.get(`${API}/posts`, {
         withCredentials: true,
       });
 

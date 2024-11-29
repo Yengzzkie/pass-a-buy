@@ -3,12 +3,13 @@ import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 
 function VerifyEmail() {
+  const API = import.meta.env.VITE_API_URL
   const { token } = useParams();
   const [error, setError] = useState("");
 
   async function verifyEmailToken() {
     try {
-      await axios.get(`http://localhost:8080/verify-email?token=${token}`);
+      await axios.get(`${API}/verify-email?token=${token}`);
       console.log("Email verification successful");
     } catch (error) {
       console.error("Email verification failed", error);

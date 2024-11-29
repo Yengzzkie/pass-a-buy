@@ -16,6 +16,7 @@ import {
 
 
 function App() {
+  const API = import.meta.env.VITE_API_URL
   const { setAuth } = useUserAuth();
   const { setUserData } = useUserData();
   const [error, setError] = useState("");
@@ -27,7 +28,7 @@ function App() {
     
     try {
       const response = await axios.post(
-        "https://sleepy-beach-58614-ab8029504aff.herokuapp.com/login",
+        `${API}/login`,
         { email: formData.email, password: formData.password },
         { withCredentials: true }
       );
@@ -48,7 +49,7 @@ function App() {
       // I know it is not ideal, just in case the app grows bigger and the user data become more expensive
       // to fetch, I want to render it here after successful login
       const user = await axios.get(
-        `https://sleepy-beach-58614-ab8029504aff.herokuapp.com/users/myprofile/${response.data.id}`,
+        `${API}/users/myprofile/${response.data.id}`,
         { withCredentials: true }
       );
 

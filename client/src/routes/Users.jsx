@@ -6,13 +6,14 @@ import axios from "axios";
 import { Button, Input } from "@material-tailwind/react";
 
 function Users() {
+  const API = import.meta.env.VITE_API_URL
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
 
   async function getAllUsers() {
     try {
       setLoading(true);
-      const users = await axios.get("http://localhost:8080/users", {
+      const users = await axios.get(`${API}/users`, {
         withCredentials: true,
       });
       console.log(users.data);

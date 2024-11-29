@@ -7,6 +7,7 @@ import Sidebar from "../components/SideBar";
 import LoadingProfile from "../components/LoadingProfile";
 
 export default function Dashboard() {
+  const API = import.meta.env.VITE_API_URL
   const { userData, setUserData } = useUserData();
   const { setAuth } = useUserAuth();
   const [loading, setLoading] = useState(false);
@@ -23,7 +24,7 @@ export default function Dashboard() {
       setLoading(true);
 
       axios
-        .get(`https://sleepy-beach-58614-ab8029504aff.herokuapp.com/users/myprofile/${userID.id}`, {
+        .get(`${API}/users/myprofile/${userID.id}`, {
           withCredentials: true,
         })
         .then((data) => {

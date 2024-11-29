@@ -7,6 +7,7 @@ import axios from "axios";
 import SpringModal from "../components/ui/components/Modal";
 
 export default function EditProfile() {
+  const API = import.meta.env.VITE_API_URL
   const { userData } = useUserData();
   const { handleLogout } = useLogout();
   const { notifySuccess } = useToast();
@@ -16,7 +17,7 @@ export default function EditProfile() {
   // will delete user's account
   async function handleDeleteUser() {
     handleLogout();
-    await axios.delete(`http://localhost:8080/users/delete/${userData.id}`, {
+    await axios.delete(`${API}/users/delete/${userData.id}`, {
       withCredentials: true,
     });
   }
@@ -25,7 +26,7 @@ export default function EditProfile() {
   async function handleVerifyEmail() {
     setCountdown(30); 
     try {
-      await axios.post(`http://localhost:8080/verify-email/${userData.id}`, {
+      await axios.post(`${API}/verify-email/${userData.id}`, {
         withCredentials: true,
       });
       notifySuccess(`Verification email sent to ${userData.email}.`);

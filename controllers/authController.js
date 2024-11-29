@@ -61,7 +61,7 @@ async function authenticateUser(req, res) {
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Internal server error" }, error.message);
+    res.status(500).json({ error: "Internal server error" });
   }
 }
 
@@ -80,7 +80,7 @@ async function logoutUser(req, res) {
 
     res.json({ message: "Logged out successfully" });
   } catch (error) {
-    return res.json({ message: error.message });
+    return res.status(500).json({ message: error.message });
   }
 }
 
@@ -108,7 +108,7 @@ async function reverifyEmail(req, res) {
     const user = await db.getUserByIdQuery(id);
 
     if (!user) {
-      return res.json({ message: "Can't find user" });
+      return res.status(404).json({ message: "Can't find user" });
     }
 
     const token = await generateVerificationToken(user.id, user.email);

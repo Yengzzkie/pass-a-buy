@@ -3,15 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
-  "engines": {
-    "node": "22.6.0"
-  },
   "scripts": {
-    "start": "cd server && NODE_ENV=production node server.js",
-    "build": "cd --prefix client && npm install && npm run build",
+    "build": "cd client && npm install && npm run build",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "server": "node --watch --env-file=.env server.js",
-    "client": "npm start --prefix ../client",
+    "client": "npm start --prefix client",
     "install-client": "npm install --prefix client"
   },
   "keywords": [],

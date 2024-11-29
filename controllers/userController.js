@@ -1,6 +1,6 @@
 const db = require("../services/userQueries");
 const bcrypt = require('bcrypt');
-const { sendVerificationMail } = require('../controllers/sendEmailController');
+const { sendVerificationMail } = require('./sendEmailController');
 const { generateVerificationToken } = require('../middleware/generateVerificationToken');
 
 // @desc: Get all users

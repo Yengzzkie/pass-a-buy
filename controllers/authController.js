@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const db = require("../services/userQueries");
 const { generateVerificationToken } = require("../middleware/generateVerificationToken");
-const { sendVerificationMail } = require("../controllers/sendEmailController");
+const { sendVerificationMail } = require("./sendEmailController");
 
 // Login controller, this module will check if a user exists in the database
 async function authenticateUser(req, res) {

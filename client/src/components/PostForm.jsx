@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button } from "@material-tailwind/react";
 import { DialogDefault } from "../components/PostModal";
-import EditCalendarIcon from '@mui/icons-material/EditCalendar';
+// import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 
 export default function PostForm() {
   const [postData, setPostData] = useState({
@@ -42,7 +42,7 @@ export default function PostForm() {
       <DialogDefault />
       <div className="flex flex-col items-center mb-4 gap-2">
         <h2 className="inline text-2xl font-semibold">Create New Post</h2>
-        <EditCalendarIcon />
+        {/* <EditCalendarIcon /> */}
       </div>
 
       <div className="w-full">

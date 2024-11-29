@@ -23,7 +23,7 @@ export default function Dashboard() {
       setLoading(true);
 
       axios
-        .get(`http://localhost:8080/users/myprofile/${userID.id}`, {
+        .get(`https://sleepy-beach-58614-ab8029504aff.herokuapp.com/users/myprofile/${userID.id}`, {
           withCredentials: true,
         })
         .then((data) => {

@@ -27,7 +27,7 @@ function App() {
     
     try {
       const response = await axios.post(
-        "http://localhost:8080/login",
+        "https://sleepy-beach-58614-ab8029504aff.herokuapp.com/login",
         { email: formData.email, password: formData.password },
         { withCredentials: true }
       );
@@ -48,7 +48,7 @@ function App() {
       // I know it is not ideal, just in case the app grows bigger and the user data become more expensive
       // to fetch, I want to render it here after successful login
       const user = await axios.get(
-        `http://localhost:8080/users/myprofile/${response.data.id}`,
+        `https://sleepy-beach-58614-ab8029504aff.herokuapp.com/users/myprofile/${response.data.id}`,
         { withCredentials: true }
       );
 

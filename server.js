@@ -26,6 +26,19 @@ app.use(express.urlencoded({ extended: true }));
 // Middleware to parse JSON
 app.use(express.json());
 
+// Set Content Security Policy
+app.use((req, res, next) => {
+  res.setHeader("Content-Security-Policy", `
+    default-src 'none';
+    script-src 'self';
+    style-src 'self' 'unsafe-inline';
+    font-src 'self' <URL of your font>;  // Add the URL where the font is hosted
+    connect-src 'self';
+    img-src 'self' data:;
+  `);
+  next();
+});
+
 // Welcome route
 // app.get("/", (req, res) => res.send("Welcome to Pass-a-buy!"));
 

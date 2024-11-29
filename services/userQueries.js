@@ -305,7 +305,7 @@ async function deleteUserQuery(id) {
       }
     })
   } catch (error) {
-    
+    console.error(error)
   }
 }
 

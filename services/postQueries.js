@@ -24,6 +24,19 @@ async function getAllPostsQuery() {
   }
 }
 
+// Get user's all post
+async function getUserPostsQuery(userId) {
+  try {
+    return await prisma.post.findMany({
+      where: {
+        userId: userId
+      },
+    })
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 // Get one post
 async function getPostQuery(postId) {
   try {
@@ -83,4 +96,17 @@ async function createPostQuery(postData, userId) {
   }
 }
 
-module.exports = { getAllPostsQuery, getPostQuery, createPostQuery };
+// delete post
+async function deletePostQuery(postId) {
+  try {
+    return await prisma.post.delete({
+      where: {
+        id: postId
+      }
+    })
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+module.exports = { getAllPostsQuery, getUserPostsQuery, getPostQuery, createPostQuery, deletePostQuery };

@@ -6,7 +6,6 @@ import {
   DialogFooter,
 } from "@material-tailwind/react";
 import { useModal } from "../stores/useDataStore";
-import { useNavigate } from "react-router-dom";
 
 export function DialogDefault({ title, message, onClose, onVerify, cancel, confirm }) {
   const { isModal, setIsModal } = useModal();

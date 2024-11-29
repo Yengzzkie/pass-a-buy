@@ -7,7 +7,7 @@ import Sidebar from "../components/SideBar";
 import LoadingProfile from "../components/LoadingProfile";
 
 export default function Dashboard() {
-  const { setUserData } = useUserData();
+  const { userData, setUserData } = useUserData();
   const { setAuth } = useUserAuth();
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -45,13 +45,13 @@ export default function Dashboard() {
   }, []);
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
+    <div className="dashboard-height flex bg-gray-100">
       {/* Sidebar */}
-      <Sidebar />
+      <Sidebar userData={userData} />
 
       {/* Main content */}
-      <div className="flex-grow p-6 overflow-y-auto h-screen">
-        {loading ? <LoadingProfile /> : <Outlet />}
+      <div className="flex-grow p-6 overflow-y-auto">
+        {loading ? <LoadingProfile /> : <Outlet className="h-[50vh]" />}
       </div>
     </div>
   );

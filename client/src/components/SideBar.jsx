@@ -1,51 +1,240 @@
-// Sidebar.js
-import { NavLink } from "react-router-dom";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import CreateIcon from "@mui/icons-material/Create";
-import BarChartIcon from "@mui/icons-material/BarChart";
-import EditNoteIcon from '@mui/icons-material/EditNote';
-import { useUserData } from "../stores/useDataStore";
+import { useState } from "react";
+import {
+  FiChevronDown,
+  FiChevronsRight,
+  FiClipboard,
+  FiEdit,
+  FiGrid,
+  FiPenTool,
+  FiShoppingCart,
+  FiTag,
+  FiUsers,
+} from "react-icons/fi";
+import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import { FaCircleQuestion } from "react-icons/fa6";
+import { useUserPostsData } from "../stores/useDataStore"
 
-export default function Sidebar() {
-  const { userData } = useUserData();
-  const {firstName, lastName} = userData;
-
+const Sidebar = ({ userData }) => {
   return (
-    <div className="sidebar min-w-64 w-64 bg-purple-800 text-white flex flex-col">
-      <img src={`https://ui-avatars.com/api/?name=${firstName}${lastName}&background=random`} alt="avatar" className="w-4/12 rounded-full mx-auto my-4" />
-      <p className="text-xl font-bold py-4 px-6 border-b border-purple-700 text-center">
-        Hi {firstName} {lastName}
-      </p>
-      <nav className="flex-1 p-4 space-y-4">
-        <NavLink
-          to="/dashboard"
-          className="flex items-center space-x-2 p-2 hover:bg-purple-600 rounded"
-        >
-          <DashboardIcon />
-          <span>Dashboard Home</span>
-        </NavLink>
-        <NavLink
-          to="dashboard/myposts"
-          className="flex items-center space-x-2 p-2 hover:bg-purple-600 rounded"
-        >
-          <BarChartIcon />
-          <span>My Posts</span>
-        </NavLink>
-        <NavLink
-          to="/dashboard/create"
-          className="flex items-center space-x-2 p-2 hover:bg-purple-600 rounded"
-        >
-          <CreateIcon />
-          <span>Create Post</span>
-        </NavLink>
-        <NavLink
-          to={`dashboard/edit/${userData.id}`}
-          className="flex items-center space-x-2 p-2 hover:bg-purple-600 rounded"
-        >
-          <EditNoteIcon />
-          <span>Edit Profile</span>
-        </NavLink>
-      </nav>
+    <div className="flex bg-indigo-50">
+      <Sidebars userData={userData} />
+      <ExampleContent />
     </div>
   );
-}
+};
+
+const Sidebars = ({ userData }) => {
+  const { posts } = useUserPostsData()
+  const [open, setOpen] = useState(true);
+  const [selected, setSelected] = useState("Dashboard");
+
+  return (
+    <motion.nav
+      layout
+      className="sticky top-0 h-[90vh] shrink-0 border-r border-slate-300 bg-white p-2"
+      style={{
+        width: open ? "240px" : "fit-content",
+      }}
+    >
+      <TitleSection userData={userData} open={open} />
+
+      <div className="space-y-1">
+        <Link to="/dashboard">
+          <Option
+            Icon={FiGrid}
+            title="Dashboard"
+            selected={selected}
+            setSelected={setSelected}
+            open={open}
+          />
+        </Link>
+        <Link to={`dashboard/myposts/${userData.id}`}>
+          <Option
+            Icon={FiPenTool}
+            title="My Posts"
+            selected={selected}
+            setSelected={setSelected}
+            open={open}
+            notifs={posts.length !== 0 ? posts.length : null}
+          />
+        </Link>
+        <Link to="dashboard/posts">
+          <Option
+            Icon={FiClipboard}
+            title="View All Posts"
+            selected={selected}
+            setSelected={setSelected}
+            open={open}
+          />
+        </Link>
+        <Option
+          Icon={FiShoppingCart}
+          title="Products"
+          selected={selected}
+          setSelected={setSelected}
+          open={open}
+        />
+        <Option
+          Icon={FiTag}
+          title="Tags"
+          selected={selected}
+          setSelected={setSelected}
+          open={open}
+        />
+        <Link to={`dashboard/edit/${userData.id}`}>
+          <Option
+            Icon={FiEdit}
+            title="Edit Profile"
+            selected={selected}
+            setSelected={setSelected}
+            open={open}
+          />
+        </Link>
+        <Link to="dashboard/users">
+          <Option
+            Icon={FiUsers}
+            title="Members"
+            selected={selected}
+            setSelected={setSelected}
+            open={open}
+          />
+        </Link>
+        <Link to="dashboard/users">
+          <Option
+            Icon={FaCircleQuestion}
+            title="FAQ"
+            selected={selected}
+            setSelected={setSelected}
+            open={open}
+          />
+        </Link>
+      </div>
+
+      <ToggleClose open={open} setOpen={setOpen} />
+    </motion.nav>
+  );
+};
+
+const Option = ({ Icon, title, selected, setSelected, open, notifs }) => {
+  return (
+    <motion.button
+      layout
+      onClick={() => setSelected(title)}
+      className={`relative flex h-10 w-full items-center rounded-md transition-colors px-4 ${selected === title ? "bg-indigo-100 text-indigo-800" : "text-slate-500 hover:bg-slate-100"}`}
+    >
+      <motion.div
+        layout
+        className="grid h-full w-2 place-content-center text-lg"
+      >
+        <Icon />
+      </motion.div>
+      {open && (
+        <motion.span
+          layout
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.125 }}
+          className="text-xs font-medium ml-5"
+        >
+          {title}
+        </motion.span>
+      )}
+
+      {notifs && open && (
+        <motion.span
+          initial={{ scale: 0, opacity: 0 }}
+          animate={{
+            opacity: 1,
+            scale: 1,
+          }}
+          style={{ y: "-50%" }}
+          transition={{ delay: 0.5 }}
+          className="absolute right-2 top-1/2 size-4 rounded bg-indigo-500 text-xs text-white"
+        >
+          {notifs}
+        </motion.span>
+      )}
+    </motion.button>
+  );
+};
+
+const TitleSection = ({ open, userData }) => {
+  return (
+    <div className="mb-3 border-b border-slate-300 pb-3">
+      <div className="flex cursor-pointer items-center justify-between rounded-md transition-colors hover:bg-slate-100">
+        <div className="flex items-center gap-2">
+          <Logo userData={userData} />
+          {open && (
+            <motion.div
+              layout
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.125 }}
+            >
+              <span className="block text-xs font-semibold">
+                Hello, {userData.firstName}
+              </span>
+              <span className="block text-xs text-slate-500 mt-1 truncate">
+                {userData.email}
+              </span>
+            </motion.div>
+          )}
+        </div>
+        {open && <FiChevronDown className="mr-2" />}
+      </div>
+    </div>
+  );
+};
+
+const Logo = ({ userData }) => {
+  // Temp logo from https://logoipsum.com/
+  return (
+    <motion.div
+      layout
+      className="grid size-8 shrink-0 place-content-center"
+    >
+      <img
+        src={`https://ui-avatars.com/api/?name=${userData.firstName}${userData.lastName}&background=random`}
+        alt="User Avatar"
+        className=" rounded-full"
+      />
+    </motion.div>
+  );
+};
+
+const ToggleClose = ({ open, setOpen }) => {
+  return (
+    <motion.button
+      layout
+      onClick={() => setOpen((pv) => !pv)}
+      className="absolute bottom-0 left-0 right-0 border-t border-slate-300 transition-colors hover:bg-slate-100"
+    >
+      <div className="flex items-center p-2">
+        <motion.div
+          layout
+          className="grid size-10 place-content-center text-lg"
+        >
+          <FiChevronsRight
+            className={`transition-transform ${open && "rotate-180"}`}
+          />
+        </motion.div>
+        {open && (
+          <motion.span
+            layout
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.125 }}
+            className="text-xs font-medium"
+          >
+            Hide
+          </motion.span>
+        )}
+      </div>
+    </motion.button>
+  );
+};
+
+const ExampleContent = () => <div className="h-[200vh] w-full"></div>;
+
+export default Sidebar;

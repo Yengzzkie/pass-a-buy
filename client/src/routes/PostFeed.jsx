@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { usePostData, useUserAuth, useModal } from "../stores/useDataStore";
 import { DialogDefault } from "../components/PostModal";
+import { Button } from "flowbite-react";
 
 function PostFeed() {
   const { isModal, setIsModal } = useModal();
@@ -90,24 +91,26 @@ function PostFeed() {
           <h1 className="text-2xl font-semibold text-gray-700 mb-6">
             Post Feed
           </h1>
-          <button
-            className="text-gray-700 border-2 border-gray-700"
-            onClick={showAllPosts}
-          >
-            Show All
-          </button>
-          <button
-            className="text-gray-700 border-2 border-gray-700"
-            onClick={filterPosts}
-          >
-            Filter
-          </button>
-          <button
-            className="text-gray-700 border-2 border-gray-700"
-            onClick={reversePosts}
-          >
-            Reverse
-          </button>
+          <div className="flex gap-2">
+            <Button
+              className="text-gray-700 border-2 border-gray-700"
+              onClick={showAllPosts}
+            >
+              Show All
+            </Button>
+            <Button
+              className="text-gray-700 border-2 border-gray-700"
+              onClick={filterPosts}
+            >
+              Filter
+            </Button>
+            <Button
+              className="text-gray-700 border-2 border-gray-700"
+              onClick={reversePosts}
+            >
+              Reverse
+            </Button>
+          </div>
           {/* Feed container */}
           <div className="grid gap-6">
             {auth && postData ? (

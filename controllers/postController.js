@@ -5,8 +5,19 @@ async function getAllPosts(req, res) {
     const posts = await db.getAllPostsQuery();
     res.json(posts);
   } catch (error) {
-    console.error("Error fetching usernames:", error);
+    console.error("Error fetching posts:", error);
     res.status(404).json({ error: "Posts not found" });
+  }
+}
+
+async function getUserPosts(req, res) {
+  try {
+    const posts = await db.getUserPostsQuery(req.params.userId);
+    // console.log(posts, req.params.userId)
+    res.status(200).json(posts);
+  } catch (error) {
+    console.error("Error fetching post", error);
+    res.status(404).json({ error: "Post not found" });
   }
 }
 
@@ -30,8 +41,19 @@ async function createPost(req, res) {
   }
 }
 
+async function deletePost(req, res) {
+  try {
+    const postToDelete = await db.deletePostQuery(req.params.postId)
+    res.json({ message: `Post with id: ${postToDelete} deleted succesfully`})
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 module.exports = {
   getAllPosts,
+  getUserPosts,
   getPost,
   createPost,
+  deletePost,
 };

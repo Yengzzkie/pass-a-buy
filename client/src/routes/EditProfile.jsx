@@ -14,6 +14,7 @@ export default function EditProfile() {
   const { notifySuccess } = useToast();
   const [countdown, setCountdown] = useState(0); 
 
+  // will delete user's account
   async function handleDeleteUser() {
     handleLogout();
     await axios.delete(`http://localhost:8080/users/delete/${userData.id}`, {
@@ -21,6 +22,7 @@ export default function EditProfile() {
     });
   }
 
+  // sends verification email to user
   async function handleVerifyEmail() {
     setCountdown(30); 
     try {
@@ -62,7 +64,7 @@ export default function EditProfile() {
     </>
   );
 
-  return (
+  return ( 
     <div>
       <DialogDefault
         title={title}

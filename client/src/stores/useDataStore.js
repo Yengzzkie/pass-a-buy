@@ -22,6 +22,11 @@ export const usePostData = create((set) => ({
     setPostData: (posts) => set({ postData: posts })
 }));
 
+export const useUserPostsData = create((set) => ({
+    posts: [],
+    setPosts: (post) => set({ posts: post })
+}))
+
 export const useModal = create((set) => ({
     isModal: false,
     setIsModal: (modal) => set({ isModal: !modal })

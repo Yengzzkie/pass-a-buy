@@ -52,7 +52,7 @@ const router = createBrowserRouter([
             ),
           },
           {
-            path: "dashboard/myposts",
+            path: "dashboard/myposts/:userId",
             element: (
               <PrivateRoute>
                 <MyPosts />
@@ -67,15 +67,23 @@ const router = createBrowserRouter([
               </PrivateRoute>
             ),
           },
+          {
+            path: "dashboard/users",
+            element: (
+              <PrivateRoute>
+                <Users />
+              </PrivateRoute>
+            ),
+          },
+          {
+            path: "dashboard/posts",
+            element: (
+              <PrivateRoute>
+                <PostFeed />
+              </PrivateRoute>
+            ),
+          },
         ],
-      },
-      {
-        path: "/users",
-        element: (
-          <PrivateRoute>
-            <Users />
-          </PrivateRoute>
-        ),
       },
       {
         path: "/posts",

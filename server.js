@@ -8,7 +8,9 @@ const PORT = process.env.PORT || 8000;
 require("dotenv").config();
 
 const corsOptions = {
-  origin: 'http://localhost:5173', // Replace with frontend URL in productions
+  origin: process.env.NODE_ENV === 'production' 
+    ? 'https://sleepy-beach-58614-ab8029504aff.herokuapp.com/' 
+    : 'http://localhost:5173',
   credentials: true,
 };
 

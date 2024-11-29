@@ -37,6 +37,6 @@
     "concurrently": "^8.2.2"
   },
   "prisma": {
-    "schema": "prisma/schema.prisma"
+    "schema": "./prisma/schema.prisma"
   }
 }

@@ -25,7 +25,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // Welcome route
-app.get("/", (req, res) => res.send("Welcome to Pass-a-buy!"));
+// app.get("/", (req, res) => res.send("Welcome to Pass-a-buy!"));
 
 // Login route
 app.use("/login", require("./server/routes/loginRoute"));

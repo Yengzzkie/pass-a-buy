@@ -26,39 +26,26 @@ app.use(express.urlencoded({ extended: true }));
 // Middleware to parse JSON
 app.use(express.json());
 
-// Set Content Security Policy
-app.use((req, res, next) => {
-  res.setHeader("Content-Security-Policy", `
-    default-src 'none';
-    script-src 'self';
-    style-src 'self' 'unsafe-inline';
-    font-src 'self' <URL of your font>;  // Add the URL where the font is hosted
-    connect-src 'self';
-    img-src 'self' data:;
-  `);
-  next();
-});
-
 // Welcome route
 // app.get("/", (req, res) => res.send("Welcome to Pass-a-buy!"));
 
 // Login route
-app.use("/login", require("./server/routes/loginRoute"));
+app.use("/login", require("./routes/loginRoute"));
 
 // Logout route
-app.use("/logout", require("./server/routes/logoutRoute"))
+app.use("/logout", require("./routes/logoutRoute"))
 
 // Send email route (inbound)
-app.use("/support", require("./server/routes/sendEmailRoute"));
+app.use("/support", require("./routes/sendEmailRoute"));
 
 // User route
-app.use("/users", require("./server/routes/userRoute"));
+app.use("/users", require("./routes/userRoute"));
 
 // Posts route
-app.use("/posts", require("./server/routes/postRoute"));
+app.use("/posts", require("./routes/postRoute"));
 
 // Verify email route
-app.use("/verify-email", require("./server/routes/emailVerificationRoute"));
+app.use("/verify-email", require("./routes/emailVerificationRoute"));
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'))

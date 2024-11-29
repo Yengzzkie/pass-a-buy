@@ -4,8 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "NODE_ENV=production node server.js",
-    "build": "cd client && npm install && npm run build",
+    "start": "cd server && NODE_ENV=production node server.js",
+    "build": "cd ../client && npm install && npm run build",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "server": "node --watch --env-file=.env server.js",
     "client": "npm start --prefix ../client",

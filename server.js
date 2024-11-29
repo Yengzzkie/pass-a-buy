@@ -28,22 +28,22 @@ app.use(express.json());
 app.get("/", (req, res) => res.send("Welcome to Pass-a-buy!"));
 
 // Login route
-app.use("/login", require("./routes/loginRoute"));
+app.use("/login", require("./server/routes/loginRoute"));
 
 // Logout route
-app.use("/logout", require("./routes/logoutRoute"))
+app.use("/logout", require("./server/routes/logoutRoute"))
 
 // Send email route (inbound)
-app.use("/support", require("./routes/sendEmailRoute"));
+app.use("/support", require("./server/routes/sendEmailRoute"));
 
 // User route
-app.use("/users", require("./routes/userRoute"));
+app.use("/users", require("./server/routes/userRoute"));
 
 // Posts route
-app.use("/posts", require("./routes/postRoute"));
+app.use("/posts", require("./server/routes/postRoute"));
 
 // Verify email route
-app.use("/verify-email", require("./routes/emailVerificationRoute"));
+app.use("/verify-email", require("./server/routes/emailVerificationRoute"));
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'))

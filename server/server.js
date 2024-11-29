@@ -43,7 +43,7 @@ app.use("/posts", require("./routes/postRoute"));
 // Verify email route
 app.use("/verify-email", require("./routes/emailVerificationRoute"));
 
-if (process.env.NODE.ENV === 'production') {
+if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'))
 
   app.get('*', (req, res) => {

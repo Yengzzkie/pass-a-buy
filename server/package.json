@@ -4,12 +4,13 @@
   "description": "",
   "main": "server.js",
   "scripts": {
+    "start": "node server.js",
+    "build": "cd ../client && npm install && npm run build",
+    "heroku-postbuild": "npm run build",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "server": "node --watch --env-file=.env server.js",
     "client": "npm start --prefix ../client",
-    "install-client": "npm install --prefix client",
-    "build": "npm run build --prefix client",
-    "populate": "node db/populatedb.js"
+    "install-client": "npm install --prefix client"
   },
   "keywords": [],
   "author": "",

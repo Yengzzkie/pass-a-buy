@@ -1,5 +1,5 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import { PencilIcon, UserPlusIcon } from "@heroicons/react/24/solid";
+import { UserPlusIcon, EyeIcon } from "@heroicons/react/24/solid";
 import {
   Card,
   CardHeader,
@@ -33,57 +33,7 @@ const TABS = [
   },
 ];
 
-const TABLE_HEAD = ["Member", "Function", "Status", "Employed", ""];
-
-const TABLE_ROWS = [
-  {
-    img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-3.jpg",
-    name: "John Michael",
-    email: "john@creative-tim.com",
-    job: "Manager",
-    org: "Organization",
-    online: true,
-    date: "23/04/18",
-  },
-  {
-    img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-2.jpg",
-    name: "Alexa Liras",
-    email: "alexa@creative-tim.com",
-    job: "Programator",
-    org: "Developer",
-    online: false,
-    date: "23/04/18",
-  },
-  {
-    img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-1.jpg",
-    name: "Laurent Perrier",
-    email: "laurent@creative-tim.com",
-    job: "Executive",
-    org: "Projects",
-    online: false,
-    date: "19/09/17",
-  },
-  {
-    img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-4.jpg",
-    name: "Michael Levi",
-    email: "michael@creative-tim.com",
-    job: "Programator",
-    org: "Developer",
-    online: true,
-    date: "24/12/08",
-  },
-  {
-    img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-5.jpg",
-    name: "Richard Gran",
-    email: "richard@creative-tim.com",
-    job: "Manager",
-    org: "Executive",
-    online: false,
-    date: "04/10/21",
-  },
-];
-
-
+const TABLE_HEAD = ["Member", "Title", "Status", "Date Posted", ""];
 
 export default function PostsTable() {
     const { postData } = usePostData();
@@ -150,14 +100,12 @@ export default function PostsTable() {
           <tbody>
             {postData.map(
               (post, index) => {
-                const isLast = index === TABLE_ROWS.length - 1;
+                const isLast = index === postData.length - 1;
                 const classes = isLast
                   ? "p-4"
                   : "p-4 border-b border-blue-gray-50";
-
-                  console.log(postData[0])
                 return (
-                  <tr key={name}>
+                  <tr className={`even:bg-gray-100 even:bg-white`} key={post.id}>
                     <td className={classes}>
                       <div className="flex items-center gap-3">
                         <Avatar src={`https://ui-avatars.com/api/?name=${post.user.firstName}-${post.user.lastName}&background=random`} alt={""} size="sm" />
@@ -181,13 +129,15 @@ export default function PostsTable() {
                     </td>
                     <td className={classes}>
                       <div className="flex flex-col">
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
-                        >
-                          {"Test"}
-                        </Typography>
+                        <Tooltip content={post.title}>
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="font-normal truncate w-[200px]"
+                          >
+                            {post.title}
+                          </Typography>
+                        </Tooltip>
                         <Typography
                           variant="small"
                           color="blue-gray"
@@ -202,8 +152,8 @@ export default function PostsTable() {
                         <Chip
                           variant="ghost"
                           size="sm"
-                          value={post.status === "ACTIVE" ? "ACTIVE" : "COMPLETED"}
-                          color={post.status === "ACTIVE" ? "green" : "blue-gray"}
+                          value={post.status === "ACTIVE" ? "ACTIVE" : post.status === "COMPLETED" ? "COMPLETED" : "CLOSED"}
+                          color={post.status === "ACTIVE" ? "green" : post.status === "COMPLETED" ? "blue-gray" : "red"}
                         />
                       </div>
                     </td>
@@ -213,13 +163,13 @@ export default function PostsTable() {
                         color="blue-gray"
                         className="font-normal"
                       >
-                        {post.createdAt}
+                        {new Date(post.createdAt).toLocaleDateString("en-US", {month: "short", day: "numeric", year: "numeric"})}
                       </Typography>
                     </td>
                     <td className={classes}>
-                      <Tooltip content="Edit User">
+                      <Tooltip content="View full details">
                         <IconButton variant="text">
-                          <PencilIcon className="h-4 w-4" />
+                          <EyeIcon className="h-4 w-4" />
                         </IconButton>
                       </Tooltip>
                     </td>

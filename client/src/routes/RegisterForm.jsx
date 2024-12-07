@@ -58,7 +58,7 @@ export default function RegisterForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="registration-form flex flex-col max-w-lg gap-4 border p-6 mt-4 mx-auto shadow-md shadow-[#ccc] rounded-md"
+      className="registration-form flex flex-col gap-4 border p-6 mx-auto shadow-md shadow-[#ccc] rounded-md"
     >
       {/* FIRST BLOCK */}
       <div>

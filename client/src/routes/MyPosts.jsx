@@ -57,8 +57,7 @@ function MyPosts() {
     <>
       <span className="text-red-500 font-semibold">This action is irreversible</span>.
       <p className="mt-4">
-        Click the <span className="font-semibold">Cancel</span> button if you changed your mind, or click{" "}
-        <span className="font-semibold">Confirm</span> to proceed.
+        Do you really want to delete this post?
       </p>
     </>
   );

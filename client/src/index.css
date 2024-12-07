@@ -11,7 +11,6 @@
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   color: rgba(235, 235, 235, 0.87);
-  background-color: #1e1880;
   --primary-bg: #1e1880;
   --navy-blue: #3b34d2;
   --light-blue: #1693b6;
@@ -32,18 +31,6 @@ body {
   );
 }
 
-/* button {
-  border: 0.5px solid #fff;
-  border-radius: 0.3rem;
-  margin: 0.5rem;
-  padding: 0.2rem 0.4rem;
-
-  &:hover {
-    color: rgb(58, 147, 225);
-    border-color: rgb(58, 147, 225);
-  }
-} */
-
 .nav-links li:hover {
   color: peachpuff;
   cursor: pointer;
@@ -60,6 +47,10 @@ body {
 .dashboard-height {
   height: calc(100vh - var(--nav-height));
 }
+
+/* table tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+} */
 
 @layer base {
   :root {

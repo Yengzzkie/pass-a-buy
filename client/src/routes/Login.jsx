@@ -12,7 +12,9 @@ import {
   Input,
   Checkbox,
   Button,
+  Spinner
 } from "@material-tailwind/react";
+
 
 function App() {
   const API = import.meta.env.VITE_NODE_ENV === 'development' ? 'http://localhost:8080' : import.meta.env.VITE_API_URL
@@ -20,11 +22,12 @@ function App() {
   const { setUserData } = useUserData();
   const [error, setError] = useState("");
   const [formData, setFormData] = useState({ email: "", password: "" });
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    console.log(import.meta.env.VITE_NODE_ENV)
+    setIsLoading(true)
     try {
       const response = await axios.post(
         `${API}/login`,
@@ -64,6 +67,8 @@ function App() {
       console.error("Error logging in:", errorMessage);
       setError(errorMessage);
       throw error;
+    }finally {
+      setIsLoading(false);
     }
   };
 
@@ -84,7 +89,7 @@ function App() {
         <Card className="w-96">
       <CardHeader variant="gradient" color="gray" className="blue-gradient mb-4 grid h-28 place-items-center">
         <Typography variant="h3" color="white">
-          Sign In
+          Pass-A-Buy
         </Typography>
       </CardHeader>
       <CardBody className="flex flex-col gap-4">
@@ -97,7 +102,7 @@ function App() {
       </CardBody>
       <CardFooter className="pt-0">
         <Button variant="gradient" type="submit" className="blue-gradient" fullWidth>
-          Sign In
+          {!isLoading ? "Sign In" : <Spinner color="blue" className="mx-auto" />}
         </Button>
         <p className="text-center">or</p>
         <Button className="flex items-center gap-3 mx-auto" size="lg" variant="outlined" color="blue-gray" >

@@ -60,8 +60,8 @@ export default function PostsTable() {
           </div>
         </div>
         <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-          <Tabs value="all" className="w-full md:w-max">
-            <TabsHeader>
+          <Tabs value="all" className="w-1/2 mr-auto lg:w-full md:w-max">
+            <TabsHeader className="flex flex-col md:flex-row">
               {TABS.map(({ label, value }) => (
                 <Tab key={value} value={value}>
                   &nbsp;&nbsp;{label}&nbsp;&nbsp;
@@ -69,7 +69,7 @@ export default function PostsTable() {
               ))}
             </TabsHeader>
           </Tabs>
-          <div className="w-full md:w-72">
+          <div className="w-1/2 lg:w-full md:w-72 mr-auto">
             <Input
               label="Search"
               icon={<MagnifyingGlassIcon className="h-5 w-5" />}

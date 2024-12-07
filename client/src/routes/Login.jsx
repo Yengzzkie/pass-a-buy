@@ -14,9 +14,8 @@ import {
   Button,
 } from "@material-tailwind/react";
 
-
 function App() {
-  const API = import.meta.env.VITE_API_URL
+  const API = import.meta.env.VITE_NODE_ENV === 'development' ? 'http://localhost:8080' : import.meta.env.VITE_API_URL
   const { setAuth } = useUserAuth();
   const { setUserData } = useUserData();
   const [error, setError] = useState("");
@@ -25,7 +24,7 @@ function App() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    
+    console.log(import.meta.env.VITE_NODE_ENV)
     try {
       const response = await axios.post(
         `${API}/login`,

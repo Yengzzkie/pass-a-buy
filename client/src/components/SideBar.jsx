@@ -195,7 +195,7 @@ const Logo = ({ userData }) => {
       className="grid size-8 shrink-0 place-content-center"
     >
       <img
-        src={`https://ui-avatars.com/api/?name=${userData.firstName}${userData.lastName}&background=random`}
+        src={`https://ui-avatars.com/api/?name=${userData.firstName}-${userData.lastName}&background=random`}
         alt="User Avatar"
         className=" rounded-full"
       />

@@ -7,7 +7,7 @@ import axios from "axios";
 import SpringModal from "../components/ui/components/Modal";
 
 export default function EditProfile() {
-  const API = import.meta.env.VITE_API_URL
+  const API = import.meta.env.VITE_NODE_ENV === 'development' ? 'http://localhost:8080' : import.meta.env.VITE_API_URL
   const { userData } = useUserData();
   const { handleLogout } = useLogout();
   const { notifySuccess } = useToast();

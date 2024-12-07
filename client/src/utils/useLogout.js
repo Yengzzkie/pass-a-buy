@@ -3,7 +3,7 @@ import { useUserAuth } from "../stores/useDataStore";
 import { useNavigate } from "react-router-dom";
 
 export const useLogout = () => {
-  const API = import.meta.env.VITE_API_URL
+  const API = import.meta.env.VITE_NODE_ENV === "development" ? "http://localhost:8080" : import.meta.env.VITE_API_URL;
   const navigate = useNavigate();
   const { setAuth } = useUserAuth();
 

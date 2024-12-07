@@ -4,7 +4,7 @@ import axios from "axios";
 import { useState } from "react";
 
 export default function UserProfile() {
-  const API = import.meta.env.VITE_API_URL
+  const API = import.meta.env.VITE_NODE_ENV === 'development' ? 'http://localhost:8080' : import.meta.env.VITE_API_URL
   const { userId } = useParams();
   const [userData, setUserData] = useState({});
 

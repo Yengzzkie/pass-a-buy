@@ -6,7 +6,7 @@ import axios from "axios";
 import { Button, Input } from "@material-tailwind/react";
 
 function Users() {
-  const API = import.meta.env.VITE_API_URL
+  const API = import.meta.env.VITE_NODE_ENV === 'development' ? 'http://localhost:8080' : import.meta.env.VITE_API_URL
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
 

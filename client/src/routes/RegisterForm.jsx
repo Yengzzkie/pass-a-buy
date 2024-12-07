@@ -13,7 +13,7 @@ import { useToast } from "../utils/useToast";
 import axios from "axios";
 
 export default function RegisterForm() {
-  const API = import.meta.env.VITE_API_URL
+  const API = import.meta.env.VITE_NODE_ENV === 'development' ? 'http://localhost:8080' : import.meta.env.VITE_API_URL
   const { notifySuccess } = useToast();
   const navigate = useNavigate();
   const [error, setError] = useState(null);

@@ -5,7 +5,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 
 function MyPosts() {
-  const API = import.meta.env.VITE_API_URL
+  const API = import.meta.env.VITE_NODE_ENV === 'development' ? 'http://localhost:8080' : import.meta.env.VITE_API_URL
   const { userData } = useUserData();
   const { posts, setPosts } = useUserPostsData();
   const [isOpen, setIsOpen] = useState(false);

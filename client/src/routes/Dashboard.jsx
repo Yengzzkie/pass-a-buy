@@ -7,7 +7,7 @@ import Sidebar from "../components/SideBar";
 import LoadingProfile from "../components/LoadingProfile";
 
 export default function Dashboard() {
-  const API = import.meta.env.VITE_API_URL
+  const API = import.meta.env.VITE_NODE_ENV === 'development' ? 'http://localhost:8080' : import.meta.env.VITE_API_URL
   const { userData, setUserData } = useUserData();
   const { setAuth } = useUserAuth();
   const [loading, setLoading] = useState(false);

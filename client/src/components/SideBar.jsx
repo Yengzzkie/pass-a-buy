@@ -17,9 +17,8 @@ import { useUserPostsData } from "../stores/useDataStore"
 
 const Sidebar = ({ userData }) => {
   return (
-    <div className="flex bg-indigo-50">
+    <div className="flex bg-indigo-50 ">
       <Sidebars userData={userData} />
-      <ExampleContent />
     </div>
   );
 };
@@ -32,13 +31,11 @@ const Sidebars = ({ userData }) => {
   return (
     <motion.nav
       layout
-      className="sticky top-0 h-[90vh] shrink-0 border-r border-slate-300 bg-white p-2"
-      style={{
-        width: open ? "240px" : "fit-content",
-      }}
+      className={`sticky top-0 h-[90vh] shrink-0 border-r border-slate-300 bg-white p-2 ${
+        open ? "w-screen lg:w-[240px]" : "w-fit"
+      }`}
     >
       <TitleSection userData={userData} open={open} />
-
       <div className="space-y-1">
         <Link to="/dashboard">
           <Option
@@ -49,7 +46,7 @@ const Sidebars = ({ userData }) => {
             open={open}
           />
         </Link>
-        <Link to={`dashboard/myposts/${userData.id}`}>
+        <Link to={`myposts/${userData.id}`}>
           <Option
             Icon={FiPenTool}
             title="My Posts"
@@ -59,7 +56,7 @@ const Sidebars = ({ userData }) => {
             notifs={posts.length !== 0 ? posts.length : null}
           />
         </Link>
-        <Link to="dashboard/posts">
+        <Link to="posts">
           <Option
             Icon={FiClipboard}
             title="View All Posts"
@@ -82,7 +79,7 @@ const Sidebars = ({ userData }) => {
           setSelected={setSelected}
           open={open}
         />
-        <Link to={`dashboard/edit/${userData.id}`}>
+        <Link to={`edit/${userData.id}`}>
           <Option
             Icon={FiEdit}
             title="Edit Profile"
@@ -91,7 +88,7 @@ const Sidebars = ({ userData }) => {
             open={open}
           />
         </Link>
-        <Link to="dashboard/users">
+        <Link to="users">
           <Option
             Icon={FiUsers}
             title="Members"
@@ -110,7 +107,6 @@ const Sidebars = ({ userData }) => {
           />
         </Link>
       </div>
-
       <ToggleClose open={open} setOpen={setOpen} />
     </motion.nav>
   );
@@ -234,7 +230,5 @@ const ToggleClose = ({ open, setOpen }) => {
     </motion.button>
   );
 };
-
-const ExampleContent = () => <div className="h-[200vh] w-full"></div>;
 
 export default Sidebar;

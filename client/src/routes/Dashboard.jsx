@@ -46,12 +46,12 @@ export default function Dashboard() {
   }, []);
 
   return (
-    <div className="dashboard-height flex bg-gray-100">
+    <div className="dashboard-height flex bg-gray-100 overflow-x-hidden">
       {/* Sidebar */}
       <Sidebar userData={userData} />
 
       {/* Main content */}
-      <div className="flex-grow p-6 overflow-y-auto">
+      <div className="flex-grow overflow-y-auto">
         {loading ? <LoadingProfile /> : <Outlet className="h-[50vh]" />}
       </div>
     </div>

@@ -17,6 +17,7 @@ import DashboardContent from "./components/DashboardContent";
 import EditProfile from "./routes/EditProfile";
 import MyPosts from "./routes/MyPosts";
 import VerifyEmail from "./routes/VerifiyEmail";
+import ManageProfile from "./routes/ManageProfile";
 
 const router = createBrowserRouter([
   {
@@ -52,7 +53,7 @@ const router = createBrowserRouter([
             ),
           },
           {
-            path: "dashboard/myposts/:userId",
+            path: "myposts/:userId",
             element: (
               <PrivateRoute>
                 <MyPosts />
@@ -60,7 +61,7 @@ const router = createBrowserRouter([
             ),
           },
           {
-            path: "dashboard/edit/:id",
+            path: "edit/:id",
             element: (
               <PrivateRoute>
                 <EditProfile />
@@ -68,7 +69,7 @@ const router = createBrowserRouter([
             ),
           },
           {
-            path: "dashboard/users",
+            path: "users",
             element: (
               <PrivateRoute>
                 <Users />
@@ -76,10 +77,18 @@ const router = createBrowserRouter([
             ),
           },
           {
-            path: "dashboard/posts",
+            path: "posts",
             element: (
               <PrivateRoute>
                 <PostFeed />
+              </PrivateRoute>
+            ),
+          },
+          {
+            path: "edit/:id/manage",
+            element: (
+              <PrivateRoute>
+                <ManageProfile />
               </PrivateRoute>
             ),
           },
@@ -111,9 +120,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/verify-email/:token",
-        element: (
-          <VerifyEmail />
-        ),
+        element: <VerifyEmail />,
       },
     ],
   },

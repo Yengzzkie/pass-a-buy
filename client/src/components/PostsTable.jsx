@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { UserPlusIcon, EyeIcon } from "@heroicons/react/24/solid";
 import {
@@ -18,30 +19,65 @@ import {
 } from "@material-tailwind/react";
 import { usePostData } from "../stores/useDataStore";
 
-const TABS = [
-  {
-    label: "All",
-    value: "all",
-  },
-  {
-    label: "Newest",
-    value: "newest",
-  },
-  {
-    label: "Oldest",
-    value: "oldest",
-  },
-];
 
-const TABLE_HEAD = ["Member", "Title", "Status", "Date Posted", ""];
 
 export default function PostsTable() {
-    const { postData } = usePostData();
+  const { postData, setPostData } = usePostData();
+  const [order, setOrder] = useState("Newest");
+  const [initialPostData] = useState([...postData]);
+
+  const TABLE_HEAD = ["Member", "Title", "Status", "Date Posted", ""];
+
+  const TABS = [
+    {
+      label: "All",
+      value: "all",
+    },
+    {
+      label: "Newest",
+      value: "newest",
+      onclick: () => {
+        if (order !== "Oldest") {
+          setPostData(initialPostData);
+          setOrder("Oldest");
+        }
+      },
+    },
+    {
+      label: "Oldest",
+      value: "reverse",
+      onclick: () => {
+        if (order !== "Newest") {
+          reversePosts();
+          setOrder("Newest");
+        }
+      },
+    },
+  ];
+
+  // This will get the posts of the user
+  // function filterPosts() {
+  //   if (userID) {
+  //     const filteredPost = postData.filter((post) => post.userId === userID.id);
+  //     setPostData(filteredPost);
+  //   }
+  // }
+
+  // // Show all posts
+  // function showAllPosts() {
+  //   setPostData(initialPostData);
+  // }
+
+  // // Reverse posts
+  function reversePosts() {
+    const reversedPost = [...postData].reverse();
+    setPostData(reversedPost);
+  }
 
   return (
-    <Card className="h-full w-full">
+    <Card className="overflow-x-hidden h-full w-full rounded-none">
       <CardHeader floated={false} shadow={false} className="rounded-none">
-        <div className="mb-8 flex items-center justify-between gap-8">
+        <div className="mb-8 flex flex-col lg:flex-row items-center justify-between gap-8">
           <div>
             <Typography variant="h5" color="blue-gray">
               Posts list
@@ -60,16 +96,16 @@ export default function PostsTable() {
           </div>
         </div>
         <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-          <Tabs value="all" className="w-1/2 mr-auto lg:w-full md:w-max">
+          <Tabs value="all" className="mx-auto lg:mr-auto w-full">
             <TabsHeader className="flex flex-col md:flex-row">
-              {TABS.map(({ label, value }) => (
-                <Tab key={value} value={value}>
+              {TABS.map(({ label, value, onclick }) => (
+                <Tab key={value} value={value} onClick={onclick}>
                   &nbsp;&nbsp;{label}&nbsp;&nbsp;
                 </Tab>
               ))}
             </TabsHeader>
           </Tabs>
-          <div className="w-1/2 lg:w-full md:w-72 mr-auto">
+          <div className="w-full md:w-3/4 mr-auto">
             <Input
               label="Search"
               icon={<MagnifyingGlassIcon className="h-5 w-5" />}
@@ -98,85 +134,103 @@ export default function PostsTable() {
             </tr>
           </thead>
           <tbody>
-            {postData.map(
-              (post, index) => {
-                const isLast = index === postData.length - 1;
-                const classes = isLast
-                  ? "p-4"
-                  : "p-4 border-b border-blue-gray-50";
-                return (
-                  <tr className={`even:bg-gray-100 even:bg-white`} key={post.id}>
-                    <td className={classes}>
-                      <div className="flex items-center gap-3">
-                        <Avatar src={`https://ui-avatars.com/api/?name=${post.user.firstName}-${post.user.lastName}&background=random`} alt={""} size="sm" />
-                        <div className="flex flex-col">
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-normal"
-                          >
-                            {post?.user?.firstName + " " + post?.user?.lastName}
-                          </Typography>
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-normal opacity-70"
-                          >
-                            {post?.user?.email}
-                          </Typography>
-                        </div>
-                      </div>
-                    </td>
-                    <td className={classes}>
+            {postData.map((post, index) => {
+              const isLast = index === postData.length - 1;
+              const classes = isLast
+                ? "p-4"
+                : "p-4 border-b border-blue-gray-50";
+              return (
+                <tr className={`even:bg-gray-100`} key={post.id}>
+                  <td className={classes}>
+                    <div className="flex items-center gap-3">
+                      <Avatar
+                        src={`https://ui-avatars.com/api/?name=${post.user.firstName}-${post.user.lastName}&background=random`}
+                        alt={""}
+                        size="sm"
+                      />
                       <div className="flex flex-col">
-                        <Tooltip content={post.title}>
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-normal truncate w-[200px]"
-                          >
-                            {post.title}
-                          </Typography>
-                        </Tooltip>
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal"
+                        >
+                          {post?.user?.firstName + " " + post?.user?.lastName}
+                        </Typography>
                         <Typography
                           variant="small"
                           color="blue-gray"
                           className="font-normal opacity-70"
                         >
-                          {"Test2"}
+                          {post?.user?.email}
                         </Typography>
                       </div>
-                    </td>
-                    <td className={classes}>
-                      <div className="w-max">
-                        <Chip
-                          variant="ghost"
-                          size="sm"
-                          value={post.status === "ACTIVE" ? "ACTIVE" : post.status === "COMPLETED" ? "COMPLETED" : "CLOSED"}
-                          color={post.status === "ACTIVE" ? "green" : post.status === "COMPLETED" ? "blue-gray" : "red"}
-                        />
-                      </div>
-                    </td>
-                    <td className={classes}>
+                    </div>
+                  </td>
+                  <td className={classes}>
+                    <div className="flex flex-col">
+                      <Tooltip content={post.title}>
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal truncate w-[200px]"
+                        >
+                          {post.title}
+                        </Typography>
+                      </Tooltip>
                       <Typography
                         variant="small"
                         color="blue-gray"
-                        className="font-normal"
+                        className="font-normal opacity-70"
                       >
-                        {new Date(post.createdAt).toLocaleDateString("en-US", {month: "short", day: "numeric", year: "numeric"})}
+                        {"Test2"}
                       </Typography>
-                    </td>
-                    <td className={classes}>
-                      <Tooltip content="View full details">
-                        <IconButton variant="text">
-                          <EyeIcon className="h-4 w-4" />
-                        </IconButton>
-                      </Tooltip>
-                    </td>
-                  </tr>
-                );
-              }
-            )}
+                    </div>
+                  </td>
+                  <td className={classes}>
+                    <div className="w-max">
+                      <Chip
+                        variant="ghost"
+                        size="sm"
+                        value={
+                          post.status === "ACTIVE"
+                            ? "ACTIVE"
+                            : post.status === "COMPLETED"
+                              ? "COMPLETED"
+                              : "CLOSED"
+                        }
+                        color={
+                          post.status === "ACTIVE"
+                            ? "green"
+                            : post.status === "COMPLETED"
+                              ? "blue-gray"
+                              : "red"
+                        }
+                      />
+                    </div>
+                  </td>
+                  <td className={classes}>
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-normal"
+                    >
+                      {new Date(post.createdAt).toLocaleDateString("en-US", {
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric",
+                      })}
+                    </Typography>
+                  </td>
+                  <td className={classes}>
+                    <Tooltip content="View full details">
+                      <IconButton variant="text">
+                        <EyeIcon className="h-4 w-4" />
+                      </IconButton>
+                    </Tooltip>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </CardBody>
